@@ -1,5 +1,6 @@
-const timepoints = [
+export const timepoints = [
   {
+    id: 1,
     title: "Spanien",
     content: "TRet das und das",
     picture: "url",
@@ -7,6 +8,7 @@ const timepoints = [
     type: "Arbeit",
   },
   {
+    id: 2,
     title: "Russland",
     content: "TRet das und das",
     picture: "url",
@@ -14,6 +16,7 @@ const timepoints = [
     type: "Urlaub",
   },
   {
+    id: 3,
     title: "Deutschland",
     content: "TRet das und das",
     picture: "url",
@@ -21,6 +24,7 @@ const timepoints = [
     type: "Arbeit",
   },
   {
+    id: 4,
     title: "Spanien",
     content: "TRet das und das",
     picture: "url",
