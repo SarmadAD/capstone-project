@@ -1,13 +1,18 @@
 import styled from "styled-components";
+import { VerticalTimeline } from "react-vertical-timeline-component";
+import "react-vertical-timeline-component/style.min.css";
+import Timepoint from "./Timepoint";
 
-export default function TimePointList({ listOfTimepoints }) {
+export default function TimepointList({ listOfTimepoints }) {
   return (
-    <TimePointListContainer>
-      {listOfTimepoints.map((x) => (
-        <p key={x.id}>{x.title}</p>
-      ))}
-    </TimePointListContainer>
+    <TimepointListContainer>
+      <VerticalTimeline>
+        {listOfTimepoints.map((timepoint) => (
+          <Timepoint key={timepoint.id} timepoint={timepoint} />
+        ))}
+      </VerticalTimeline>
+    </TimepointListContainer>
   );
 }
 
-const TimePointListContainer = styled.div``;
+const TimepointListContainer = styled.div``;
