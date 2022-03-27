@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
-import Timepoint from "./Timepoint";
+import Timepoint from "../Timepoint/Timepoint";
 
 export default function TimepointList({ listOfTimepoints }) {
   return (

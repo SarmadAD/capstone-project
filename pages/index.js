@@ -1,13 +1,13 @@
 import Image from "next/image";
 import styled from "styled-components";
-import TimepointList from "../components/TimepointList";
+import TimepointList from "../components/TimepointList/TimepointList";
 import { timepoints } from "../db";
 
 export default function Home() {
   const textForNoTimepoints = "Füge Timepoints hinzu, um deine Timeline zu erstellen";
   return (
     <HomeContainer>
-      {/* {timepoints.length > 0 ? <TimepointList listOfTimepoints={timepoints} /> : <p>{textForNoTimepoints}</p>} */}
+      {timepoints.length > 0 ? <TimepointList listOfTimepoints={timepoints} /> : <p>{textForNoTimepoints}</p>}
       <div>+</div>
       {/* <Image src={"/components/SVG/loadingcapstone.svg"} alt="schade" width={100} height={100} /> */}
     </HomeContainer>
