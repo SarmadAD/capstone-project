@@ -10,7 +10,7 @@ export const timepoints = [
   {
     id: 2,
     title: "Russland",
-    content: "TRet das und das",
+    content: "Okay Russland,Okay Russland,Okay Russlandsadasd,Okay Russland",
     picture: "url",
     date: "25.03.2019",
     type: "Urlaub",
@@ -26,7 +26,23 @@ export const timepoints = [
   {
     id: 4,
     title: "Spanien",
-    content: "TRet das und das",
+    content: "TRet das und das, manOkay RusslandOkay RusslandOkay Russland",
+    picture: "url",
+    date: "25.03.2019",
+    type: "Arbeit",
+  },
+  {
+    id: 5,
+    title: "Spanien",
+    content: "TRet das und das, manOkay RusslandOkay RusslandOkay Russland",
+    picture: "url",
+    date: "25.03.2019",
+    type: "Arbeit",
+  },
+  {
+    id: 6,
+    title: "Spanien",
+    content: "TRet das und das, manOkay RusslandOkay RusslandOkay Russland",
     picture: "url",
     date: "25.03.2019",
     type: "Arbeit",

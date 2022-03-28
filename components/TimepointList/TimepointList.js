@@ -6,7 +6,7 @@ import Timepoint from "../Timepoint/Timepoint";
 export default function TimepointList({ listOfTimepoints }) {
   return (
     <TimepointListContainer>
-      <VerticalTimeline>
+      <VerticalTimeline layout={"1-column-left"}>
         {listOfTimepoints.map((timepoint) => (
           <Timepoint key={timepoint.id} timepoint={timepoint} />
         ))}
@@ -15,4 +15,8 @@ export default function TimepointList({ listOfTimepoints }) {
   );
 }
 
-const TimepointListContainer = styled.div``;
+const TimepointListContainer = styled.div`
+  .vertical-timeline-element-date {
+    display: none;
+  }
+`;

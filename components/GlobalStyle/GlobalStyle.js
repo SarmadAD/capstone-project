@@ -9,5 +9,6 @@ export const GlobalStyle = createGlobalStyle`
     font-family: Roboto;
   }
   body{
+    background-color: #2D2A3D;
   }
 `;
