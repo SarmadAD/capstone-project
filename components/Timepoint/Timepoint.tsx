@@ -1,9 +1,8 @@
+import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import Image from "next/image";
 import React from "react";
-import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 import styled from "styled-components";
-import { TimepointModel } from "../../model/TimepointModel";
 
 export default function Timepoint({ timepoint }) {
   const timepointStyle = {
@@ -16,7 +15,6 @@ export default function Timepoint({ timepoint }) {
     paddingRight: "1em",
     boxShadow: "none",
   };
-
   return (
     <VerticalTimelineElement
       className="vertical-timeline-element--work"

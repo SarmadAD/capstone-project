@@ -1,7 +1,7 @@
-import styled from "styled-components";
 import { VerticalTimeline } from "react-vertical-timeline-component";
-import "react-vertical-timeline-component/style.min.css";
 import { TimepointModel } from "../../model/TimepointModel";
+import styled from "styled-components";
+import "react-vertical-timeline-component/style.min.css";
 import React from "react";
 import Timepoint from "../Timepoint/Timepoint";
 

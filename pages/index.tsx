@@ -1,12 +1,12 @@
-import Image from "next/image";
 import { useState } from "react";
-import styled from "styled-components";
-import Modal from "../components/Modal";
-import TimepointList from "../components/TimepointList/TimepointList";
-import { timepoints } from "../db";
-import Combobox from "react-widgets/Combobox";
 import { TimePointTypeList } from "../model/TimePointTypeList";
 import { TimepointModel } from "../model/TimepointModel";
+import { timepoints } from "../db";
+import styled from "styled-components";
+import Image from "next/image";
+import Modal from "../components/Modal";
+import TimepointList from "../components/TimepointList/TimepointList";
+import Combobox from "react-widgets/Combobox";
 import React from "react";
 
 const createTimePointModalStyle = {
@@ -45,8 +45,6 @@ export default function Home() {
 
   function handleOnSubmit(event) {
     event.preventDefault();
-    console.log("Submit!");
-    console.log(currentTimepoint);
   }
 
   function handleOnChangeForm(event) {
@@ -68,6 +66,9 @@ export default function Home() {
   function handleTypeChange(selectedItem) {
     setCurrentTimepoint((current) => ({ ...current, type: selectedItem }));
   }
+
+  //Icon verbinden, Allgemein Logic hinter dem Timepoint überprüfen,
+  //Fehler im Devtool überpürfen wenn ein Timepoint erstellt wird
 
   const textForNoTimepoints = "Füge Timepoints hinzu, um deine Timeline zu erstellen";
   return (
