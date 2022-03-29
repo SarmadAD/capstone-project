@@ -27,7 +27,7 @@ export default function Timepoint({ timepoint }) {
           <Image src="/Images/random.jpg" alt="The Image of the timepoint" width={100} height={35} className="timepointImage" />
         </ImageContainer>
         <TimepointContentRightSide>
-          <StyledTimepointHeader>{timepoint.title}</StyledTimepointHeader>
+          <TimepointHeader>{timepoint.title}</TimepointHeader>
           <TimepointContent>{timepoint.content}</TimepointContent>
           <FooterTimePoint>
             <div>{timepoint.date}</div>
@@ -63,7 +63,7 @@ const ImageContainer = styled.div`
   }
 `;
 
-const StyledTimepointHeader = styled.h3`
+const TimepointHeader = styled.h3`
   font-style: normal;
   font-weight: 400;
 `;
@@ -72,7 +72,7 @@ const TimepointContent = styled.article`
   font-style: normal;
   font-weight: 400;
   margin-bottom: 1em;
-  overflow-y:auto;
+  overflow-y: auto;
 `;
 
 const FooterTimePoint = styled.div`
