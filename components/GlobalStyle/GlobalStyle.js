@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import "react-widgets/styles.css";
 
 export const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {

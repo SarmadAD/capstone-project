@@ -1,4 +1,6 @@
-export const timepoints = [
+import { TimepointModel } from "./model/TimepointModel";
+
+export const timepoints: TimepointModel[] = [
   {
     id: 1,
     title: "Spanien",
