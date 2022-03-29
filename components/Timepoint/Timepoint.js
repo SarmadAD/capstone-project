@@ -24,7 +24,7 @@ export default function Timepoint({ timepoint }) {
     >
       <TimepointContentContainer>
         <ImageContainer>
-          <Image src="/Images/random.jpg" alt="The Image of the timepoint" width={100} height={25} className="timepointImage" />
+          <Image src="/Images/random.jpg" alt="The Image of the timepoint" width={100} height={35} className="timepointImage" />
         </ImageContainer>
         <TimepointContentRightSide>
           <StyledTimepointHeader>{timepoint.title}</StyledTimepointHeader>
@@ -44,19 +44,18 @@ export default function Timepoint({ timepoint }) {
 //weiter machen mit styling: Überschrift besser machen positon, etc
 const TimepointContentContainer = styled.div`
   display: flex;
+  max-height: 150px;
 `;
 
 const TimepointContentRightSide = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 1em;
-  width: 75%;
+  width: 70%;
 `;
 
 const ImageContainer = styled.div`
   display: flex;
-  width: 25%;
-  border: 1px solid;
   border-radius: 26px 0px 0px 26px;
 
   .timepointImage {
@@ -73,6 +72,7 @@ const TimepointContent = styled.article`
   font-style: normal;
   font-weight: 400;
   margin-bottom: 1em;
+  overflow-y:auto;
 `;
 
 const FooterTimePoint = styled.div`

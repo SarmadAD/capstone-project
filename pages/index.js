@@ -8,7 +8,6 @@ export default function Home() {
   return (
     <HomeContainer>
       {timepoints.length > 0 ? <TimepointList listOfTimepoints={timepoints} /> : <p>{textForNoTimepoints}</p>}
-      <div>+</div>
       {/* <Image src={"/components/SVG/loadingcapstone.svg"} alt="schade" width={100} height={100} /> */}
     </HomeContainer>
   );
@@ -19,7 +18,6 @@ const HomeContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 100vh;
   p {
     text-align: center;
     font-size: 2.5em;
