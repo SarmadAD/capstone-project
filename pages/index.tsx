@@ -134,7 +134,7 @@ const HomeContainer = styled.div`
 const AddTimepointContainer = styled.div`
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   position: fixed;
-  bottom: 0;
+  bottom: 10vh;
   margin-bottom: 1em;
   button {
     background-color: #9e94d6;

@@ -1,3 +1,4 @@
+import Footer from "../components/Footer/Footer";
 import { GlobalStyle } from "../components/GlobalStyle/GlobalStyle"
 
 function MyApp({ Component, pageProps }) {
@@ -5,6 +6,7 @@ function MyApp({ Component, pageProps }) {
     <>
       <GlobalStyle />
       <Component {...pageProps} />
+      <Footer />
     </>
   );
 }
