@@ -24,16 +24,18 @@ const createTimePointModalStyle = {
   },
 };
 
+const resetTimepointObj = {
+  id: 0,
+  title: "",
+  content: "",
+  date: "",
+  picture: "",
+  type: TimePointTypeList[0].type,
+};
+
 export default function Home() {
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [currentTimepoint, setCurrentTimepoint] = useState<TimepointModel>({
-    id: 0,
-    title: "",
-    content: "",
-    date: "",
-    picture: "",
-    type: TimePointTypeList[0].type,
-  });
+  const [currentTimepoint, setCurrentTimepoint] = useState<TimepointModel>(resetTimepointObj);
 
   function openModal() {
     setIsOpen(true);
@@ -45,6 +47,8 @@ export default function Home() {
 
   function handleOnSubmit(event) {
     event.preventDefault();
+    setCurrentTimepoint(resetTimepointObj);
+    closeModal();
   }
 
   function handleOnChangeForm(event) {
@@ -66,9 +70,6 @@ export default function Home() {
   function handleTypeChange(selectedItem) {
     setCurrentTimepoint((current) => ({ ...current, type: selectedItem }));
   }
-
-  //Icon verbinden, Allgemein Logic hinter dem Timepoint überprüfen,
-  //Fehler im Devtool überpürfen wenn ein Timepoint erstellt wird
 
   const textForNoTimepoints = "Füge Timepoints hinzu, um deine Timeline zu erstellen";
   return (
