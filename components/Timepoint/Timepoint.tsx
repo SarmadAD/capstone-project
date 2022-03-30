@@ -1,9 +1,12 @@
-import Image from "next/image";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
+import Image from "next/image";
+import React from "react";
 import "react-vertical-timeline-component/style.min.css";
 import styled from "styled-components";
+import { TimePointTypeList } from "../../model/TimePointTypeList";
 
 export default function Timepoint({ timepoint }) {
+  const iconTimepointStyle = TimePointTypeList.find((iconStyle) => iconStyle.type == timepoint.type);
   const timepointStyle = {
     background: "#FFFFFFF",
     color: "#000000",
@@ -19,8 +22,8 @@ export default function Timepoint({ timepoint }) {
       className="vertical-timeline-element--work"
       contentStyle={timepointStyle}
       contentArrowStyle={{ borderRight: "7px solid  rgb(33, 150, 243)" }}
-      iconStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
-      // icon={<WorkIcon />}
+      iconStyle={{ background: iconTimepointStyle.color, color: "#fff", padding: "0.5em" }}
+      icon={<Image src={iconTimepointStyle.icon} alt={`${iconTimepointStyle.type} Icon`} width={50} height={50}></Image>}
     >
       <TimepointContentContainer>
         <ImageContainer>
@@ -41,7 +44,7 @@ export default function Timepoint({ timepoint }) {
     </VerticalTimelineElement>
   );
 }
-//weiter machen mit styling: Überschrift besser machen positon, etc
+
 const TimepointContentContainer = styled.div`
   display: flex;
   max-height: 150px;
