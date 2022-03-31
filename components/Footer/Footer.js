@@ -8,31 +8,31 @@ export default function Footer({}) {
   return (
     <FooterContainer>
       <Link href="/" passHref>
-        <Ancher>
+        <Anchor>
           {router.pathname === "/" ? (
             <Image src="/SVG/homeSelected.svg" height={50} width={50} alt="home nav item" />
           ) : (
             <Image src="/SVG/home.svg" height={50} width={50} alt="home nav item" />
           )}
-        </Ancher>
+        </Anchor>
       </Link>
       <Link href="/social" passHref>
-        <Ancher>
+        <Anchor>
           {router.pathname === "/social" ? (
             <Image src="/SVG/socialSelected.svg" height={50} width={50} alt="social nav item" />
           ) : (
             <Image src="/SVG/social.svg" height={50} width={50} alt="social nav item" />
           )}
-        </Ancher>
+        </Anchor>
       </Link>
       <Link href="/profile" passHref>
-        <Ancher>
+        <Anchor>
           {router.pathname === "/profile" ? (
             <Image src="/SVG/profileSelected.svg" height={50} width={50} alt="profile nav item" />
           ) : (
             <Image src="/SVG/profile.svg" height={50} width={50} alt="profile nav item" />
           )}
-        </Ancher>
+        </Anchor>
       </Link>
     </FooterContainer>
   );
@@ -48,7 +48,7 @@ const FooterContainer = styled.div`
   background: #9e94d6;
 `;
 
-const Ancher = styled.a`
+const Anchor = styled.a`
   border: 1px solid #000000;
   padding: 0.5em;
   width: 100%;
