@@ -46,10 +46,6 @@ const FooterContainer = styled.div`
   right: 0;
   left: 0;
   background: #9e94d6;
-
-  .svgChange {
-    fill: #ffffff;
-  }
 `;
 
 const Ancher = styled.a`
