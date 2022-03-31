@@ -2,7 +2,10 @@ import { Schema, model } from "mongoose";
 
 const userSchema = new Schema(
   {
-    /*the user model*/
+    name: { type: String },
+    image: { type: String },
+    email: { type: String },
+    friendIds: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );
