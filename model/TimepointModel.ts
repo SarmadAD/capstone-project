@@ -1,5 +1,7 @@
+import { Key } from "react";
+
 export type TimepointModel = {
-  id: Number;
+  id: Key;
   title: String;
   content: String;
   date: String;
