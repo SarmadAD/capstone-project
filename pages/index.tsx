@@ -8,6 +8,8 @@ import Modal from "../components/Modal";
 import TimepointList from "../components/TimepointList/TimepointList";
 import Combobox from "react-widgets/Combobox";
 import React from "react";
+import { getSession } from "next-auth/react";
+import { StyledAppButton } from "../components/Buttons/StyledAppButton";
 
 const createTimePointModalStyle = {
   content: {
@@ -104,17 +106,36 @@ export default function Home() {
               data={TimePointTypeList.map((TimePointType) => TimePointType["type"])}
               onSelect={handleTypeChange}
             />
-            <ModalButton value="Upload" className="uploadButton" type="button">
+            <StyledAppButton value="Upload" className="uploadButton" type="button">
               Upload
-            </ModalButton>
-            <ModalButton value="Erstellen/Edit" className="createButton" type="submit">
+            </StyledAppButton>
+            <StyledAppButton value="Erstellen/Edit" className="createButton" type="submit">
               Erstellen/Edit
-            </ModalButton>
+            </StyledAppButton>
           </CreateTimepointModalForm>
         </ModalContent>
       </Modal>
     </HomeContainer>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/auth/signIn",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      session,
+    },
+  };
 }
 
 const HomeContainer = styled.div`
@@ -174,14 +195,4 @@ const ModalTextArea = styled.textarea`
   border: 1px solid;
   border-radius: 15px;
   font-size: 1em;
-`;
-
-const ModalButton = styled.button`
-  background: #9e94d6;
-  border: 1px solid #ffffff;
-  color: #ffffff;
-  border-radius: 19px;
-  padding: 0.5em;
-  width: 50%;
-  margin-top: 0.5em;
 `;

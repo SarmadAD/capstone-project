@@ -46,6 +46,7 @@ const FooterContainer = styled.div`
   right: 0;
   left: 0;
   background: #9e94d6;
+  margin-top: 15em;
 `;
 
 const Anchor = styled.a`
