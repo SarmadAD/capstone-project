@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { TimePointTypeList } from "../model/TimePointTypeList";
 import { TimepointModel } from "../model/TimepointModel";
-import { timepoints } from "../db";
+// import { timepoints } from "../db";
 import styled from "styled-components";
 import Image from "next/image";
 import Modal from "../components/Modal";
@@ -10,6 +10,7 @@ import Combobox from "react-widgets/Combobox";
 import React from "react";
 import { getSession } from "next-auth/react";
 import { StyledAppButton } from "../components/Buttons/StyledAppButton";
+import useSWR from "swr";
 
 const createTimePointModalStyle = {
   content: {
@@ -36,6 +37,7 @@ const resetTimepointObj = {
 };
 
 export default function Home() {
+  const timepoints = useSWR("/api/timepoints");
   const [modalIsOpen, setIsOpen] = useState(false);
   const [currentTimepoint, setCurrentTimepoint] = useState<TimepointModel>(resetTimepointObj);
 
@@ -47,8 +49,16 @@ export default function Home() {
     setIsOpen(false);
   }
 
-  function handleOnSubmit(event) {
+  async function handleOnSubmit(event) {
     event.preventDefault();
+    const response = await fetch("/api/timepoints", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(currentTimepoint),
+    });
+    if (response.ok) {
+      timepoints.mutate();
+    }
     setCurrentTimepoint(resetTimepointObj);
     closeModal();
   }
@@ -76,7 +86,7 @@ export default function Home() {
   const textForNoTimepoints = "Füge Timepoints hinzu, um deine Timeline zu erstellen";
   return (
     <HomeContainer>
-      {timepoints.length > 0 ? <TimepointList listOfTimepoints={timepoints} /> : <p>{textForNoTimepoints}</p>}
+      {timepoints.data ? <TimepointList listOfTimepoints={timepoints.data} /> : <p>{textForNoTimepoints}</p>}
       {/* <Image src={"/components/SVG/loadingcapstone.svg"} alt="schade" width={100} height={100} /> */}
       <AddTimepointContainer>
         <button onClick={openModal}>
