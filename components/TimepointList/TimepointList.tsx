@@ -7,7 +7,7 @@ import Timepoint from "../Timepoint/Timepoint";
 
 export default function TimepointList({ listOfTimepoints }) {
   return (
-    <TimepointListContainer data-testid="timeline">
+    <TimepointListContainer>
       <VerticalTimeline layout={"1-column-left"}>
         {listOfTimepoints.map((timepoint: TimepointModel) => (
           <Timepoint key={timepoint.id} timepoint={timepoint} />
