@@ -1,4 +1,4 @@
-import ExportedModal from "react-modal";
+import ReactModal from "react-modal";
 
 export default function Modal({ modalIsOpen, children, closeModal, createTimePointModalStyle }) {
   // function afterOpenModal() {
@@ -8,9 +8,9 @@ export default function Modal({ modalIsOpen, children, closeModal, createTimePoi
 
   return (
     <div>
-      <ExportedModal isOpen={modalIsOpen} onRequestClose={closeModal} style={createTimePointModalStyle}>
+      <ReactModal isOpen={modalIsOpen} onRequestClose={closeModal} style={createTimePointModalStyle}>
         {children}
-      </ExportedModal>
+      </ReactModal>
     </div>
   );
 }

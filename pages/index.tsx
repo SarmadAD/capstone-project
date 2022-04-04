@@ -39,6 +39,8 @@ const resetTimepointObj = {
 export default function Home() {
   const timepoints = useSWR("/api/timepoints");
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [createTimepointMode, setCreateTimepointMode] = useState(false);
+  const [editTimepointMode, setEditTimepointMode] = useState(false);
   const [currentTimepoint, setCurrentTimepoint] = useState<TimepointModel>(resetTimepointObj);
 
   function openModal() {
@@ -47,20 +49,39 @@ export default function Home() {
 
   function closeModal() {
     setIsOpen(false);
+    setCurrentTimepoint(resetTimepointObj);
+    setEditTimepointMode(false);
+    setCreateTimepointMode(false);
   }
 
   async function handleOnSubmit(event) {
-    event.preventDefault();
-    const response = await fetch("/api/timepoints", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(currentTimepoint),
-    });
-    if (response.ok) {
-      timepoints.mutate();
+    try {
+      event.preventDefault();
+      if (createTimepointMode) {
+        const response = await fetch("/api/timepoints", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(currentTimepoint),
+        });
+        if (response.ok) {
+          timepoints.mutate();
+        }
+      } else if (editTimepointMode) {
+        const response = await fetch(`/api/timepoints/${currentTimepoint._id}`, {
+          method: "PATCH",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(currentTimepoint),
+        });
+        if (response.ok) {
+          timepoints.mutate();
+        }
+      }
+    } catch (error) {
+      console.error();
+    } finally {
+      setCurrentTimepoint(resetTimepointObj);
+      closeModal();
     }
-    setCurrentTimepoint(resetTimepointObj);
-    closeModal();
   }
 
   function handleOnChangeForm(event) {
@@ -83,13 +104,27 @@ export default function Home() {
     setCurrentTimepoint((current) => ({ ...current, type: selectedItem }));
   }
 
+  function handleCreateTimepoint() {
+    setCreateTimepointMode(true);
+    openModal();
+  }
+
   const textForNoTimepoints = "Füge Timepoints hinzu, um deine Timeline zu erstellen";
   return (
     <HomeContainer>
-      {timepoints.data ? <TimepointList listOfTimepoints={timepoints.data} /> : <p>{textForNoTimepoints}</p>}
+      {timepoints.data ? (
+        <TimepointList
+          listOfTimepoints={timepoints.data}
+          setEditTimepointMode={setEditTimepointMode}
+          setCurrentTimepoint={setCurrentTimepoint}
+          openModal={openModal}
+        />
+      ) : (
+        <p>{textForNoTimepoints}</p>
+      )}
       {/* <Image src={"/components/SVG/loadingcapstone.svg"} alt="schade" width={100} height={100} /> */}
       <AddTimepointContainer>
-        <button onClick={openModal}>
+        <button onClick={handleCreateTimepoint}>
           <Image src="/SVG/add.svg" height={75} width={75} alt="add timepoint button" />
         </button>
       </AddTimepointContainer>
@@ -113,14 +148,15 @@ export default function Home() {
             />
             <Combobox
               defaultValue={TimePointTypeList[0].type}
+              value={currentTimepoint.type}
               data={TimePointTypeList.map((TimePointType) => TimePointType["type"])}
               onSelect={handleTypeChange}
             />
             <StyledAppButton value="Upload" className="uploadButton" type="button">
               Upload
             </StyledAppButton>
-            <StyledAppButton value="Erstellen/Edit" className="createButton" type="submit">
-              Erstellen/Edit
+            <StyledAppButton value={createTimepointMode ? "Erstellen" : "Bearbeiten"} className="createEditButton" type="submit">
+              {createTimepointMode ? "Erstellen" : "Bearbeiten"}
             </StyledAppButton>
           </CreateTimepointModalForm>
         </ModalContent>
@@ -182,7 +218,7 @@ const CreateTimepointModalForm = styled.form`
     align-self: flex-end;
     margin-bottom: 1em;
   }
-  .createButton {
+  .createEditButton {
     align-self: center;
   }
 `;
