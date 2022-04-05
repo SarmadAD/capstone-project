@@ -1,8 +1,9 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 import Timepoint from "../../../Schema/Timepoint";
 import { connectDb } from "../../../utils/db";
 
-export default async function handler(request, response) {
+export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   try {
     connectDb();
     const session = await getSession({ req: request });
