@@ -5,7 +5,7 @@ import "react-vertical-timeline-component/style.min.css";
 import React from "react";
 import Timepoint from "../Timepoint/Timepoint";
 
-export default function TimepointList({ listOfTimepoints, setEditTimepointMode, setCurrentTimepoint, openModal }) {
+export default function TimepointList({ listOfTimepoints, setEditTimepointMode, setDeleteTimepointMode, setCurrentTimepoint, openModal }) {
   return (
     <TimepointListContainer>
       <VerticalTimeline layout={"1-column-left"}>
@@ -16,6 +16,7 @@ export default function TimepointList({ listOfTimepoints, setEditTimepointMode, 
             setEditTimepointMode={setEditTimepointMode}
             setCurrentTimepoint={setCurrentTimepoint}
             openModal={openModal}
+            setDeleteTimepointMode={setDeleteTimepointMode}
           />
         ))}
       </VerticalTimeline>

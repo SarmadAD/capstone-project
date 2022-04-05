@@ -25,6 +25,17 @@ export default async function handler(request: NextApiRequest, response: NextApi
           response.status(404).json({ error: "Not found" });
         }
         break;
+      case "DELETE":
+        const deletedTimepoint = await Timepoint.findOneAndDelete({ _id: timepointId }, { returnDocument: "after", runValidators: true });
+        if (deletedTimepoint) {
+          response.status(200).json({
+            success: true,
+            data: deletedTimepoint,
+          });
+        } else {
+          response.status(404).json({ error: "Not found" });
+        }
+        break;
       default:
         break;
     }

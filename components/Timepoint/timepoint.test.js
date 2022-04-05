@@ -25,9 +25,9 @@ describe("CRUD Timepoint", () => {
   };
 
   const updatedTimepoint = {
-    id: "testid",
-    title: "testtitle",
-    content: "testcontent",
+    id: "testidupdate",
+    title: "testtitleupdated",
+    content: "testcontentupdated",
     date: "25.2.2222",
     picture: "testpicture",
     type: "testtype",
@@ -47,17 +47,21 @@ describe("CRUD Timepoint", () => {
   it("test if timepoint can be created", async () => {
     const timepoints = db.collection("timepoints");
     await timepoints.insertOne(exampleTimepoint);
-
     const insertedTimepoint = await timepoints.findOne({ id: exampleTimepoint.id });
     expect(insertedTimepoint).toEqual(exampleTimepoint);
   });
 
   it("test if timepoint can be changed", async () => {
     const timepoints = db.collection("timepoints");
-
     await timepoints.updateOne(exampleTimepoint, { $set: updatedTimepoint });
+    const findUpdatedTimepoint = await timepoints.findOne({ id: exampleTimepoint.id });
+    expect(findUpdatedTimepoint).not.toEqual(exampleTimepoint);
+  });
 
-    const insertedTimepoint = await timepoints.findOne({ id: exampleTimepoint.id });
-    expect(insertedTimepoint).toEqual(exampleTimepoint);
+  it("test if timepoint can be deleted", async () => {
+    const timepoints = db.collection("timepoints");
+    await timepoints.deleteOne({ _id: exampleTimepoint.id });
+    const deletedTimepoint = await timepoints.findOne({ id: exampleTimepoint.id });
+    expect(deletedTimepoint).toBeNull();
   });
 });
