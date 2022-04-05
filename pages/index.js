@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { TimePointTypeList } from "../model/TimePointTypeList";
 import { TimepointModel } from "../model/TimepointModel";
-// import { timepoints } from "../db";
 import styled from "styled-components";
 import Image from "next/image";
 import Modal from "../components/Modal";
@@ -41,7 +40,7 @@ export default function Home() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [createTimepointMode, setCreateTimepointMode] = useState(false);
   const [editTimepointMode, setEditTimepointMode] = useState(false);
-  const [currentTimepoint, setCurrentTimepoint] = useState<TimepointModel>(resetTimepointObj);
+  const [currentTimepoint, setCurrentTimepoint] = useState(resetTimepointObj);
 
   function openModal() {
     setIsOpen(true);
@@ -189,6 +188,7 @@ const HomeContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 5em;
   p {
     text-align: center;
     font-size: 2.5em;

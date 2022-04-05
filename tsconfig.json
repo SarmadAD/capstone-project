@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "components/TimepointList/timepointList.test.js", "components/Timepoint/timepoint.test.js"  ],
+, "components/TimepointList/timepointList.test.js", "components/Timepoint/timepoint.test.js", "pages/index.js"  ],
   "exclude": [
     "node_modules"
   ]

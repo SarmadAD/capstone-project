@@ -48,7 +48,7 @@ describe("CRUD Timepoint", () => {
     const timepoints = db.collection("timepoints");
     await timepoints.insertOne(exampleTimepoint);
 
-    const insertedTimepoint = await timepoints.findOne({ _id: exampleTimepoint._id });
+    const insertedTimepoint = await timepoints.findOne({ id: exampleTimepoint.id });
     expect(insertedTimepoint).toEqual(exampleTimepoint);
   });
 
@@ -57,7 +57,7 @@ describe("CRUD Timepoint", () => {
 
     await timepoints.updateOne(exampleTimepoint, { $set: updatedTimepoint });
 
-    const insertedTimepoint = await timepoints.findOne({ _id: exampleTimepoint._id });
+    const insertedTimepoint = await timepoints.findOne({ id: exampleTimepoint.id });
     expect(insertedTimepoint).toEqual(exampleTimepoint);
   });
 });
