@@ -40,6 +40,7 @@ export default function Home() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [createTimepointMode, setCreateTimepointMode] = useState(false);
   const [editTimepointMode, setEditTimepointMode] = useState(false);
+  const [deleteTimepointMode, setDeleteTimepointMode] = useState(false);
   const [currentTimepoint, setCurrentTimepoint] = useState(resetTimepointObj);
 
   function openModal() {
@@ -51,6 +52,7 @@ export default function Home() {
     setCurrentTimepoint(resetTimepointObj);
     setEditTimepointMode(false);
     setCreateTimepointMode(false);
+    setDeleteTimepointMode(false);
   }
 
   async function handleOnSubmit(event) {
@@ -74,6 +76,24 @@ export default function Home() {
         if (response.ok) {
           timepoints.mutate();
         }
+      }
+    } catch (error) {
+      console.error();
+    } finally {
+      setCurrentTimepoint(resetTimepointObj);
+      closeModal();
+    }
+  }
+
+  async function handleDelete() {
+    try {
+      const response = await fetch(`/api/timepoints/${currentTimepoint._id}`, {
+        method: "DELETE",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(currentTimepoint),
+      });
+      if (response.ok) {
+        timepoints.mutate();
       }
     } catch (error) {
       console.error();
@@ -111,10 +131,11 @@ export default function Home() {
   const textForNoTimepoints = "Füge Timepoints hinzu, um deine Timeline zu erstellen";
   return (
     <HomeContainer>
-      {timepoints.data ? (
+      {timepoints.data && timepoints.data.length > 0 ? (
         <TimepointList
           listOfTimepoints={timepoints.data}
           setEditTimepointMode={setEditTimepointMode}
+          setDeleteTimepointMode={setDeleteTimepointMode}
           setCurrentTimepoint={setCurrentTimepoint}
           openModal={openModal}
         />
@@ -128,38 +149,73 @@ export default function Home() {
         </button>
       </AddTimepointContainer>
 
-      <Modal modalIsOpen={modalIsOpen} closeModal={closeModal} createTimePointModalStyle={createTimePointModalStyle}>
-        <ModalHeader>
-          <button onClick={closeModal} className="closeModalButton">
-            <Image src="/SVG/close.svg" height={25} width={25} alt="close button" />
-          </button>
-        </ModalHeader>
-        <ModalContent>
-          <CreateTimepointModalForm onSubmit={handleOnSubmit}>
-            <ModalInput name="title" placeholder="Title" value={currentTimepoint.title.toString()} onChange={handleOnChangeForm} required />
-            <ModalInput name="date" placeholder="Date" type="date" value={currentTimepoint.date.toString()} onChange={handleOnChangeForm} required />
-            <ModalTextArea
-              name="content"
-              placeholder="Beschreibung..."
-              value={currentTimepoint.content.toString()}
-              onChange={handleOnChangeForm}
-              required
-            />
-            <Combobox
-              defaultValue={TimePointTypeList[0].type}
-              value={currentTimepoint.type}
-              data={TimePointTypeList.map((TimePointType) => TimePointType["type"])}
-              onSelect={handleTypeChange}
-            />
-            <StyledAppButton value="Upload" className="uploadButton" type="button">
-              Upload
-            </StyledAppButton>
-            <StyledAppButton value={createTimepointMode ? "Erstellen" : "Bearbeiten"} className="createEditButton" type="submit">
-              {createTimepointMode ? "Erstellen" : "Bearbeiten"}
-            </StyledAppButton>
-          </CreateTimepointModalForm>
-        </ModalContent>
-      </Modal>
+      {(createTimepointMode || editTimepointMode) && (
+        <Modal modalIsOpen={modalIsOpen} closeModal={closeModal} createTimePointModalStyle={createTimePointModalStyle}>
+          <ModalHeader>
+            <button onClick={closeModal} className="closeModalButton">
+              <Image src="/SVG/close.svg" height={25} width={25} alt="close button" />
+            </button>
+          </ModalHeader>
+          <ModalContent>
+            <CreateTimepointModalForm onSubmit={handleOnSubmit}>
+              <ModalInput name="title" placeholder="Title" value={currentTimepoint.title.toString()} onChange={handleOnChangeForm} required />
+              <ModalInput
+                name="date"
+                placeholder="Date"
+                type="date"
+                value={currentTimepoint.date.toString()}
+                onChange={handleOnChangeForm}
+                required
+              />
+              <ModalTextArea
+                name="content"
+                placeholder="Beschreibung..."
+                value={currentTimepoint.content.toString()}
+                onChange={handleOnChangeForm}
+                required
+              />
+              <Combobox
+                defaultValue={TimePointTypeList[0].type}
+                value={currentTimepoint.type}
+                data={TimePointTypeList.map((TimePointType) => TimePointType["type"])}
+                onSelect={handleTypeChange}
+              />
+              <StyledAppButton value="Upload" className="uploadButton" type="button">
+                Upload
+              </StyledAppButton>
+              <StyledAppButton value={createTimepointMode ? "Erstellen" : "Bearbeiten"} className="createEditButton" type="submit">
+                {createTimepointMode ? "Erstellen" : "Bearbeiten"}
+              </StyledAppButton>
+            </CreateTimepointModalForm>
+          </ModalContent>
+        </Modal>
+      )}
+
+      {deleteTimepointMode && (
+        <Modal modalIsOpen={modalIsOpen} closeModal={closeModal} createTimePointModalStyle={createTimePointModalStyle}>
+          <ModalHeader>
+            <button onClick={closeModal} className="closeModalButton">
+              <Image src="/SVG/close.svg" height={25} width={25} alt="close button" />
+            </button>
+          </ModalHeader>
+          <ModalContent>
+            <MondalDeleteContainer>
+              <p>
+                Möchten Sie das ausgewählte
+                <br /> Ereignis wirklich löschen?
+              </p>
+              <DeleteModalOptions>
+                <StyledAppButton value="Nein" onClick={closeModal}>
+                  Nein
+                </StyledAppButton>
+                <StyledAppButton value="Ja" onClick={handleDelete}>
+                  Ja
+                </StyledAppButton>
+              </DeleteModalOptions>
+            </MondalDeleteContainer>
+          </ModalContent>
+        </Modal>
+      )}
     </HomeContainer>
   );
 }
@@ -225,6 +281,15 @@ const CreateTimepointModalForm = styled.form`
 const ModalHeader = styled.div`
   display: flex;
   justify-content: flex-end;
+  color: #ffffff;
+`;
+
+const DeleteModalOptions = styled.div`
+  display: flex;
+  justify-content: space-between;
+  button {
+    margin-right: 1em;
+  }
 `;
 
 const ModalInput = styled.input`
@@ -241,4 +306,10 @@ const ModalTextArea = styled.textarea`
   border: 1px solid;
   border-radius: 15px;
   font-size: 1em;
+`;
+
+const MondalDeleteContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
 `;
