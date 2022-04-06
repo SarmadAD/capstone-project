@@ -131,7 +131,7 @@ export default function Home() {
   const textForNoTimepoints = "Füge Timepoints hinzu, um deine Timeline zu erstellen";
   return (
     <HomeContainer>
-      {timepoints.data ? (
+      {timepoints.data && timepoints.data.length > 0 ? (
         <TimepointList
           listOfTimepoints={timepoints.data}
           setEditTimepointMode={setEditTimepointMode}
@@ -200,12 +200,18 @@ export default function Home() {
           </ModalHeader>
           <ModalContent>
             <MondalDeleteContainer>
-              <StyledAppButton value="Nein" onClick={closeModal}>
-                Nein
-              </StyledAppButton>
-              <StyledAppButton value="Ja" onClick={handleDelete}>
-                Ja
-              </StyledAppButton>
+              <p>
+                Möchten Sie das ausgewählte
+                <br /> Ereignis wirklich löschen?
+              </p>
+              <DeleteModalOptions>
+                <StyledAppButton value="Nein" onClick={closeModal}>
+                  Nein
+                </StyledAppButton>
+                <StyledAppButton value="Ja" onClick={handleDelete}>
+                  Ja
+                </StyledAppButton>
+              </DeleteModalOptions>
             </MondalDeleteContainer>
           </ModalContent>
         </Modal>
@@ -275,6 +281,15 @@ const CreateTimepointModalForm = styled.form`
 const ModalHeader = styled.div`
   display: flex;
   justify-content: flex-end;
+  color: #ffffff;
+`;
+
+const DeleteModalOptions = styled.div`
+  display: flex;
+  justify-content: space-between;
+  button {
+    margin-right: 1em;
+  }
 `;
 
 const ModalInput = styled.input`
@@ -295,8 +310,6 @@ const ModalTextArea = styled.textarea`
 
 const MondalDeleteContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  button {
-    margin-right: 1em;
-  }
+  flex-direction: column;
+  color: #ffffff;
 `;
