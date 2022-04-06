@@ -11,6 +11,8 @@ import { getSession } from "next-auth/react";
 import { StyledAppButton } from "../components/Buttons/StyledAppButton";
 import useSWR from "swr";
 
+import loadingcapstone from "../public/SVG/loadingcapstone.svg";
+
 const createTimePointModalStyle = {
   content: {
     top: "50%",
@@ -139,8 +141,12 @@ export default function Home() {
           setCurrentTimepoint={setCurrentTimepoint}
           openModal={openModal}
         />
-      ) : (
+      ) : timepoints.data && timepoints.data.length === 0 ? (
         <p>{textForNoTimepoints}</p>
+      ) : (
+        <object type="image/svg+xml" data="/SVG/loadingcapstone.svg" aria-labelledby="loading">
+          loading-animation
+        </object>
       )}
       {/* <Image src={"/components/SVG/loadingcapstone.svg"} alt="schade" width={100} height={100} /> */}
       <AddTimepointContainer>
@@ -252,6 +258,20 @@ const HomeContainer = styled.div`
   .closeModalButton {
     color: black;
   }
+  object {
+    @media only screen and (max-width: 576px) {
+      width: 100%;
+    }
+    @media only screen and (min-width: 576px) {
+      width: 50%;
+    }
+    @media only screen and (min-width: 768px) {
+      width: 50%;
+    }
+    @media only screen and (min-width: 1200px) {
+      width: 30%;
+    }
+  }
 `;
 
 const AddTimepointContainer = styled.div`
@@ -312,4 +332,8 @@ const MondalDeleteContainer = styled.div`
   display: flex;
   flex-direction: column;
   color: #ffffff;
+`;
+
+const LoadingContainer = styled.div`
+  display: flex;
 `;
