@@ -12,7 +12,6 @@ export default function Timepoint({ timepoint, setEditTimepointMode, setDeleteTi
     color: "#000000",
     width: "100%",
     borderRadius: "26px",
-    // filter: "drop-shadow(0px 4px 4px #F3686B)",
     boxShadow: "0px 0px 13px 0px rgba(255,255,255,0.42)",
     padding: 0,
     paddingRight: "1em",
