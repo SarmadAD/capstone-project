@@ -28,10 +28,11 @@ export default function Social() {
 }
 
 const SocialContainer = styled.div`
+  text-align: center;
   p {
     text-align: center;
     font-size: 2.5em;
-    color: #FFFFFF;
+    color: #ffffff;
     margin: 0.5em;
   }
 `;

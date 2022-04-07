@@ -250,24 +250,10 @@ const HomeContainer = styled.div`
   p {
     text-align: center;
     font-size: 2.5em;
-    color: #FFFFFF;
+    color: #ffffff;
   }
   .closeModalButton {
     color: black;
-  }
-  object {
-    @media only screen and (max-width: 576px) {
-      width: 100%;
-    }
-    @media only screen and (min-width: 576px) {
-      width: 50%;
-    }
-    @media only screen and (min-width: 768px) {
-      width: 50%;
-    }
-    @media only screen and (min-width: 1200px) {
-      width: 30%;
-    }
   }
 `;
 
@@ -329,8 +315,4 @@ const MondalDeleteContainer = styled.div`
   display: flex;
   flex-direction: column;
   color: #ffffff;
-`;
-
-const LoadingContainer = styled.div`
-  display: flex;
 `;
