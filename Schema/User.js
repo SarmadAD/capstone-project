@@ -5,7 +5,6 @@ const userSchema = new Schema(
     name: { type: String },
     image: { type: String },
     email: { type: String },
-    friendIds: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );

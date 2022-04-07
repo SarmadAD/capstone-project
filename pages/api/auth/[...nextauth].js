@@ -13,7 +13,7 @@ export default NextAuth({
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
     async session({ session, user, token }) {
-      return { ...session, user: { ...session.user, id: user.id } };
+      return { ...session, user: { ...session.user, id: user.id, friendsIds: user.friendsIds } };
     },
   },
   pages: {
