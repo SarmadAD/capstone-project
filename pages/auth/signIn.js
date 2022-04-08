@@ -2,7 +2,7 @@ import { getProviders, getSession, signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import styled from "styled-components";
-import { StyledAppButton } from "../../components/Buttons/StyledAppButton";
+import { AppButton } from "../../components/styledComponents/AppButton";
 
 export default function SignIn({ providers }) {
   const { data: session } = useSession();
@@ -17,7 +17,7 @@ export default function SignIn({ providers }) {
     <>
       {Object.values(providers).map((provider) => (
         <LoginContainer key={provider.name}>
-          <StyledAppButton onClick={() => signIn(provider.id)}>Sign in with {provider.name}</StyledAppButton>
+          <AppButton onClick={() => signIn(provider.id)}>Sign in with {provider.name}</AppButton>
         </LoginContainer>
       ))}
     </>

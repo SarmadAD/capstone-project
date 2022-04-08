@@ -11,7 +11,7 @@ export default function TimepointList({ listOfTimepoints, setEditTimepointMode, 
       <VerticalTimeline layout={"1-column-left"}>
         {listOfTimepoints.map((timepoint: TimepointModel) => (
           <Timepoint
-            key={timepoint.id}
+            key={timepoint._id}
             timepoint={timepoint}
             setEditTimepointMode={setEditTimepointMode}
             setCurrentTimepoint={setCurrentTimepoint}

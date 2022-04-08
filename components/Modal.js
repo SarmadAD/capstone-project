@@ -40,4 +40,5 @@ const ModalHeader = styled.div`
   display: flex;
   justify-content: flex-end;
   color: #ffffff;
+  margin-bottom: 1em;
 `;

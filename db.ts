@@ -2,7 +2,7 @@ import { TimepointModel } from "./model/TimepointModel";
 
 export const timepoints: TimepointModel[] = [
   {
-    id: 1,
+    _id: 1,
     title: "Spanien",
     content: "Lorem nt ut labore e erat, sed diam voluptua. At vero eos e",
     picture: "url",
@@ -10,7 +10,7 @@ export const timepoints: TimepointModel[] = [
     type: "Beruflich",
   },
   {
-    id: 2,
+    _id: 2,
     title: "Russland",
     content: "Lorem nt ut labore e erat, sed diam voluptua. At vero eos e Lorem nt ut labore e erat, sed diam voluptua. At vero eos e",
     picture: "url",
@@ -18,7 +18,7 @@ export const timepoints: TimepointModel[] = [
     type: "Urlaub",
   },
   {
-    id: 3,
+    _id: 3,
     title: "Deutschland",
     content: "TRet das und das",
     picture: "url",
@@ -26,7 +26,7 @@ export const timepoints: TimepointModel[] = [
     type: "Beruflich",
   },
   {
-    id: 4,
+    _id: 4,
     title: "Spanien",
     content: "Lorem nt ut labore e erat, sed diam voluptua. At vero eos e Lorem nt ut labore e erat, s",
     picture: "url",
@@ -34,7 +34,7 @@ export const timepoints: TimepointModel[] = [
     type: "Beruflich",
   },
   {
-    id: 5,
+    _id: 5,
     title: "Spanien",
     content: "TRet Lorem nt ut labore e erat, sed diam voluptua. At vero eos e Lorem nt ut labore e erat, s",
     picture: "url",
@@ -42,7 +42,7 @@ export const timepoints: TimepointModel[] = [
     type: "Urlaub",
   },
   {
-    id: 6,
+    _id: 6,
     title: "Spanien",
     content: "Lorem nt ut labore e erat, sed diam voluptua. At vero eos e Lorem nt ut labore e erat, s",
     picture: "url",

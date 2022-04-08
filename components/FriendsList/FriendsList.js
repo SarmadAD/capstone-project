@@ -5,7 +5,7 @@ export default function FriendsList({ userfriends }) {
   return (
     <FriendsListContainer>
       {userfriends.map((userFriend) => (
-        <Friend key={userFriend.id} userFriend={userFriend} />
+        <Friend key={userFriend._id} userFriend={userFriend} />
       ))}
     </FriendsListContainer>
   );

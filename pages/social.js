@@ -1,7 +1,9 @@
 import { getSession, useSession } from "next-auth/react";
+import { useState } from "react";
+import { AppButton } from "../components/styledComponents/AppButton";
+import { AppInput } from "../components/styledComponents/AppInput";
 import Head from "next/head";
 import Image from "next/image";
-import { useState } from "react";
 import Modal from "../components/Modal";
 import styled from "styled-components";
 import useSWR from "swr";
@@ -13,6 +15,7 @@ export default function Social() {
   const textIfNoPersionAdded = "Füge Personen hinzu, um deren Timeline zu sehen";
   const userfriends = useSWR("/api/friendslist");
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [email, setEmail] = useState("");
 
   function handleCreateFriend() {
     openModal();
@@ -23,6 +26,36 @@ export default function Social() {
 
   function closeModal() {
     setIsOpen(false);
+    setEmail("");
+  }
+
+  async function handleSubmit(event) {
+    try {
+      event.preventDefault();
+      const response = await fetch(`/api/friendslist/${email}`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+      });
+      const getUserWithCurrentEmail = await response.json();
+      if (response.ok) {
+        userfriends.mutate();
+        console.log(getUserWithCurrentEmail);
+        closeModal();
+      } else if (response.status == 404) {
+        console.log("User not found");
+      }
+    } catch (error) {
+      console.error();
+    } finally {
+    }
+  }
+
+  function handleChangeForm(event) {
+    switch (event.target.name) {
+      case "email":
+        setEmail(event.target.value);
+        break;
+    }
   }
 
   return (
@@ -43,7 +76,16 @@ export default function Social() {
             <Image src="/SVG/addFriends.svg" height={50} width={50} alt="add friend button" />
           </button>
         </AddFriendContainer>
-        <Modal modalIsOpen={modalIsOpen} closeModal={closeModal}></Modal>
+        <Modal modalIsOpen={modalIsOpen} closeModal={closeModal}>
+          <ModalContent>
+            <AddFriendForm onSubmit={handleSubmit}>
+              <AppInput placeholder="E-Mail" name="email" value={email} type="email" onChange={handleChangeForm} required />
+              <AppButton value="Hinzufügen" name="submit" type="submit">
+                Hinzufügen
+              </AppButton>
+            </AddFriendForm>
+          </ModalContent>
+        </Modal>
       </SocialContainer>
     </>
   );
@@ -72,6 +114,13 @@ const AddFriendContainer = styled.div`
     border-radius: 50%;
     padding: 1em;
   }
+`;
+
+const ModalContent = styled.div``;
+
+const AddFriendForm = styled.form`
+  display: flex;
+  flex-direction: column;
 `;
 
 export async function getServerSideProps(context) {
