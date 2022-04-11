@@ -10,7 +10,6 @@ export default async function handler(request: NextApiRequest, response: NextApi
     switch (request.method) {
       case "GET":
         if (session) {
-          //   const timepoints = await Timepoint.find().sort({ createdAt: -1 }).limit(100).where({ userId: session.user.id }).populate("userId");
           const timepoints = await Timepoint.find().where({ userId: session.user.id });
           response.status(200).json(timepoints);
         } else {

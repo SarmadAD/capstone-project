@@ -1,30 +1,16 @@
 import { useState } from "react";
 import { TimePointTypeList } from "../model/TimePointTypeList";
+import { getSession } from "next-auth/react";
+import { AppButton } from "../components/styledComponents/AppButton";
+import { AppInput } from "../components/styledComponents/AppInput";
 import styled from "styled-components";
 import Image from "next/image";
 import Modal from "../components/Modal";
 import TimepointList from "../components/TimepointList/TimepointList";
 import Combobox from "react-widgets/Combobox";
 import React from "react";
-import { getSession } from "next-auth/react";
-import { StyledAppButton } from "../components/Buttons/StyledAppButton";
 import useSWR from "swr";
 import Loading from "../components/Loading/Loading";
-
-const createTimePointModalStyle = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    background: "#655F8A",
-    border: "2px solid #FFFFFF",
-    borderRadius: "15px",
-    padding: "2em",
-  },
-};
 
 const resetTimepointObj = {
   id: 0,
@@ -37,18 +23,18 @@ const resetTimepointObj = {
 
 export default function Home() {
   const timepoints = useSWR("/api/timepoints");
-  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [createTimepointMode, setCreateTimepointMode] = useState(false);
   const [editTimepointMode, setEditTimepointMode] = useState(false);
   const [deleteTimepointMode, setDeleteTimepointMode] = useState(false);
   const [currentTimepoint, setCurrentTimepoint] = useState(resetTimepointObj);
 
   function openModal() {
-    setIsOpen(true);
+    setModalIsOpen(true);
   }
 
   function closeModal() {
-    setIsOpen(false);
+    setModalIsOpen(false);
     setCurrentTimepoint(resetTimepointObj);
     setEditTimepointMode(false);
     setCreateTimepointMode(false);
@@ -144,7 +130,7 @@ export default function Home() {
       ) : (
         <Loading />
       )}
-      {/* <Image src={"/components/SVG/loadingcapstone.svg"} alt="schade" width={100} height={100} /> */}
+
       <AddTimepointContainer>
         <button onClick={handleCreateTimepoint}>
           <Image src="/SVG/add.svg" height={75} width={75} alt="add timepoint button" />
@@ -152,23 +138,11 @@ export default function Home() {
       </AddTimepointContainer>
 
       {(createTimepointMode || editTimepointMode) && (
-        <Modal modalIsOpen={modalIsOpen} closeModal={closeModal} createTimePointModalStyle={createTimePointModalStyle}>
-          <ModalHeader>
-            <button onClick={closeModal} className="closeModalButton">
-              <Image src="/SVG/close.svg" height={25} width={25} alt="close button" />
-            </button>
-          </ModalHeader>
+        <Modal modalIsOpen={modalIsOpen} closeModal={closeModal}>
           <ModalContent>
             <CreateTimepointModalForm onSubmit={handleOnSubmit}>
-              <ModalInput name="title" placeholder="Title" value={currentTimepoint.title.toString()} onChange={handleOnChangeForm} required />
-              <ModalInput
-                name="date"
-                placeholder="Date"
-                type="date"
-                value={currentTimepoint.date.toString()}
-                onChange={handleOnChangeForm}
-                required
-              />
+              <AppInput name="title" placeholder="Title" value={currentTimepoint.title.toString()} onChange={handleOnChangeForm} required />
+              <AppInput name="date" placeholder="Date" type="date" value={currentTimepoint.date.toString()} onChange={handleOnChangeForm} required />
               <ModalTextArea
                 name="content"
                 placeholder="Beschreibung..."
@@ -182,24 +156,19 @@ export default function Home() {
                 data={TimePointTypeList.map((TimePointType) => TimePointType["type"])}
                 onSelect={handleTypeChange}
               />
-              <StyledAppButton value="Upload" className="uploadButton" type="button">
+              <AppButton value="Upload" className="uploadButton" type="button">
                 Upload
-              </StyledAppButton>
-              <StyledAppButton value={createTimepointMode ? "Erstellen" : "Bearbeiten"} className="createEditButton" type="submit">
+              </AppButton>
+              <AppButton value={createTimepointMode ? "Erstellen" : "Bearbeiten"} className="createEditButton" type="submit">
                 {createTimepointMode ? "Erstellen" : "Bearbeiten"}
-              </StyledAppButton>
+              </AppButton>
             </CreateTimepointModalForm>
           </ModalContent>
         </Modal>
       )}
 
       {deleteTimepointMode && (
-        <Modal modalIsOpen={modalIsOpen} closeModal={closeModal} createTimePointModalStyle={createTimePointModalStyle}>
-          <ModalHeader>
-            <button onClick={closeModal} className="closeModalButton">
-              <Image src="/SVG/close.svg" height={25} width={25} alt="close button" />
-            </button>
-          </ModalHeader>
+        <Modal modalIsOpen={modalIsOpen} closeModal={closeModal}>
           <ModalContent>
             <MondalDeleteContainer>
               <p>
@@ -207,12 +176,12 @@ export default function Home() {
                 <br /> Ereignis wirklich löschen?
               </p>
               <DeleteModalOptions>
-                <StyledAppButton value="Nein" onClick={closeModal}>
+                <AppButton value="Nein" onClick={closeModal}>
                   Nein
-                </StyledAppButton>
-                <StyledAppButton value="Ja" onClick={handleDelete}>
+                </AppButton>
+                <AppButton value="Ja" onClick={handleDelete}>
                   Ja
-                </StyledAppButton>
+                </AppButton>
               </DeleteModalOptions>
             </MondalDeleteContainer>
           </ModalContent>
@@ -281,11 +250,6 @@ const CreateTimepointModalForm = styled.form`
     align-self: center;
   }
 `;
-const ModalHeader = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  color: #ffffff;
-`;
 
 const DeleteModalOptions = styled.div`
   display: flex;
@@ -293,14 +257,6 @@ const DeleteModalOptions = styled.div`
   button {
     margin-right: 1em;
   }
-`;
-
-const ModalInput = styled.input`
-  padding: 0.5em;
-  margin-bottom: 0.5em;
-  border: 1px solid;
-  border-radius: 15px;
-  font-size: 1em;
 `;
 
 const ModalTextArea = styled.textarea`
