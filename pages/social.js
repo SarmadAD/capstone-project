@@ -16,6 +16,7 @@ export default function Social() {
   const userfriends = useSWR("/api/friendslist");
   const [modalIsOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
 
   function handleCreateFriend() {
     openModal();
@@ -27,6 +28,7 @@ export default function Social() {
   function closeModal() {
     setIsOpen(false);
     setEmail("");
+    setError("");
   }
 
   async function handleSubmit(event) {
@@ -42,7 +44,7 @@ export default function Social() {
         console.log(getUserWithCurrentEmail);
         closeModal();
       } else if (response.status == 404) {
-        console.log("User not found");
+        setError("User nicht gefunden");
       }
     } catch (error) {
       console.error();
@@ -84,6 +86,7 @@ export default function Social() {
                 Hinzufügen
               </AppButton>
             </AddFriendForm>
+            <ErrorContainer>{error ? <p>{error}</p> : ""}</ErrorContainer>
           </ModalContent>
         </Modal>
       </SocialContainer>
@@ -116,7 +119,14 @@ const AddFriendContainer = styled.div`
   }
 `;
 
-const ModalContent = styled.div``;
+const ErrorContainer = styled.div`
+  text-align: center;
+`;
+
+const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const AddFriendForm = styled.form`
   display: flex;

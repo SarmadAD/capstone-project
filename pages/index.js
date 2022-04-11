@@ -142,14 +142,7 @@ export default function Home() {
           <ModalContent>
             <CreateTimepointModalForm onSubmit={handleOnSubmit}>
               <AppInput name="title" placeholder="Title" value={currentTimepoint.title.toString()} onChange={handleOnChangeForm} required />
-              <AppInput
-                name="date"
-                placeholder="Date"
-                type="date"
-                value={currentTimepoint.date.toString()}
-                onChange={handleOnChangeForm}
-                required
-              />
+              <AppInput name="date" placeholder="Date" type="date" value={currentTimepoint.date.toString()} onChange={handleOnChangeForm} required />
               <ModalTextArea
                 name="content"
                 placeholder="Beschreibung..."
