@@ -8,7 +8,7 @@ import Timepoint from "../Timepoint/Timepoint";
 export default function TimepointList({ listOfTimepoints, setEditTimepointMode, setDeleteTimepointMode, setCurrentTimepoint, openModal }) {
   return (
     <TimepointListContainer>
-      <VerticalTimeline layout={"1-column-left"}>
+      <VerticalTimeline layout={"1-column-left"} >
         {listOfTimepoints.map((timepoint: TimepointModel) => (
           <Timepoint
             key={timepoint._id}

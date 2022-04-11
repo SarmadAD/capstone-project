@@ -11,14 +11,24 @@ import FriendsList from "../components/FriendsList/FriendsList";
 import Loading from "../components/Loading/Loading";
 
 export default function Social() {
-  const { data: session } = useSession();
-  const textIfNoPersionAdded = "Füge Personen hinzu, um deren Timeline zu sehen";
+  const resetFriendUser = {
+    name: "",
+    image: "",
+    email: "",
+    friendsIds: [],
+  };
+
+  const textIfNoPersonAdded = "Füge Personen hinzu, um deren Timeline zu sehen";
   const userfriends = useSWR("/api/friendslist");
   const [modalIsOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [removeFriendMode, setRemoveFriendMode] = useState(false);
+  const [createFriendMode, setCreateFriendMode] = useState(false);
+  const [currentFriendUser, setCurrentFriendUser] = useState(resetFriendUser);
 
   function handleCreateFriend() {
+    setCreateFriendMode(true);
     openModal();
   }
   function openModal() {
@@ -27,6 +37,9 @@ export default function Social() {
 
   function closeModal() {
     setIsOpen(false);
+    setRemoveFriendMode(false);
+    setCreateFriendMode(false);
+    setCurrentFriendUser(resetFriendUser);
     setEmail("");
     setError("");
   }
@@ -60,6 +73,24 @@ export default function Social() {
     }
   }
 
+  async function handleRemoveFriend() {
+    try {
+      const response = await fetch(`/api/friendslist/update/${currentFriendUser._id}`, {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(currentFriendUser),
+      });
+      if (response.ok) {
+        userfriends.mutate();
+      }
+    } catch (error) {
+      console.error();
+    } finally {
+      setCurrentFriendUser(resetFriendUser);
+      closeModal();
+    }
+  }
+
   return (
     <>
       <Head>
@@ -67,9 +98,14 @@ export default function Social() {
       </Head>
       <SocialContainer>
         {userfriends.data && userfriends.data.length > 0 ? (
-          <FriendsList userfriends={userfriends.data} />
+          <FriendsList
+            userfriends={userfriends.data}
+            setRemoveFriendMode={setRemoveFriendMode}
+            openModal={openModal}
+            setCurrentFriendUser={setCurrentFriendUser}
+          />
         ) : userfriends.data && userfriends.data.length === 0 ? (
-          <p>{textIfNoPersionAdded}</p>
+          <p>{textIfNoPersonAdded}</p>
         ) : (
           <Loading />
         )}
@@ -78,17 +114,41 @@ export default function Social() {
             <Image src="/SVG/addFriends.svg" height={50} width={50} alt="add friend button" />
           </button>
         </AddFriendContainer>
-        <Modal modalIsOpen={modalIsOpen} closeModal={closeModal}>
-          <ModalContent>
-            <AddFriendForm onSubmit={handleSubmit}>
-              <AppInput placeholder="E-Mail" name="email" value={email} type="email" onChange={handleChangeForm} required />
-              <AppButton value="Hinzufügen" name="submit" type="submit">
-                Hinzufügen
-              </AppButton>
-            </AddFriendForm>
-            <ErrorContainer>{error ? <p>{error}</p> : ""}</ErrorContainer>
-          </ModalContent>
-        </Modal>
+
+        {createFriendMode && (
+          <Modal modalIsOpen={modalIsOpen} closeModal={closeModal}>
+            <ModalContent>
+              <AddFriendForm onSubmit={handleSubmit}>
+                <AppInput placeholder="E-Mail" name="email" value={email} type="email" onChange={handleChangeForm} required />
+                <AppButton value="Hinzufügen" name="submit" type="submit">
+                  Hinzufügen
+                </AppButton>
+              </AddFriendForm>
+              <ErrorContainer>{error ? <p>{error}</p> : ""}</ErrorContainer>
+            </ModalContent>
+          </Modal>
+        )}
+
+        {removeFriendMode && (
+          <Modal modalIsOpen={modalIsOpen} closeModal={closeModal}>
+            <ModalContent>
+              <RemoveFriendContainer>
+                <p>
+                  Möchten Sie das ausgewählten
+                  <br /> Freund wirklich löschen?
+                </p>
+                <RemoveFriendOptions>
+                  <AppButton value="Nein" onClick={closeModal}>
+                    Nein
+                  </AppButton>
+                  <AppButton value="Ja" onClick={handleRemoveFriend}>
+                    Ja
+                  </AppButton>
+                </RemoveFriendOptions>
+              </RemoveFriendContainer>
+            </ModalContent>
+          </Modal>
+        )}
       </SocialContainer>
     </>
   );
@@ -101,6 +161,19 @@ const SocialContainer = styled.div`
     font-size: 2.5em;
     color: #ffffff;
     margin: 0.5em;
+  }
+`;
+
+const RemoveFriendContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+`;
+const RemoveFriendOptions = styled.div`
+  display: flex;
+  justify-content: space-between;
+  button {
+    margin-right: 1em;
   }
 `;
 
