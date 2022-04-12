@@ -33,7 +33,7 @@ export default function Timepoint({ timepoint, setEditTimepointMode, setDeleteTi
     <VerticalTimelineElement
       className="vertical-timeline-element--work"
       contentStyle={timepointStyle}
-      contentArrowStyle={{ borderRight: "7px solid  rgb(33, 150, 243)" }}
+      contentArrowStyle={{ borderRight: "7px solid  #FFFFFF" }}
       iconStyle={{ background: iconTimepointStyle.color, color: "#fff", padding: "0.5em" }}
       icon={<Image src={iconTimepointStyle.icon} alt={`${iconTimepointStyle.type} Icon`} width={50} height={50}></Image>}
     >

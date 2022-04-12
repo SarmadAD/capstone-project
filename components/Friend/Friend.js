@@ -1,14 +1,19 @@
 import Image from "next/image";
 import styled from "styled-components";
 
-export default function Friend({ userFriend }) {
+export default function Friend({ userFriend, setRemoveFriendMode, openModal, setCurrentFriendUser }) {
+  function handleRemoveFriend() {
+    setRemoveFriendMode(true);
+    setCurrentFriendUser(userFriend);
+    openModal(true);
+  }
   return (
-    <FriendContainer>
+    <FriendContainer data-testid="friend">
       <FriendNameContainer>
         <p>{userFriend.name}</p>
       </FriendNameContainer>
       <RemoveFriendButton>
-        <Image src="/SVG/removeFriend.svg" height={40} width={40} alt="remove friend button" />
+        <Image src="/SVG/removeFriend.svg" height={40} width={40} alt="remove friend button" onClick={handleRemoveFriend} />
       </RemoveFriendButton>
     </FriendContainer>
   );
