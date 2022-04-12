@@ -125,6 +125,7 @@ export default function Home() {
           setDeleteTimepointMode={setDeleteTimepointMode}
           setCurrentTimepoint={setCurrentTimepoint}
           openModal={openModal}
+          readOnlyMode={false}
         />
       ) : timepoints.data && timepoints.data.length === 0 ? (
         <p>{textForNoTimepoints}</p>
@@ -221,9 +222,6 @@ const HomeContainer = styled.div`
     text-align: center;
     font-size: 2.5em;
     color: #ffffff;
-  }
-  .closeModalButton {
-    color: black;
   }
 `;
 

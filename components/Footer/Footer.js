@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 
-export default function Footer({}) {
+export default function Footer() {
   const router = useRouter();
   return (
     <FooterContainer>
@@ -16,9 +16,9 @@ export default function Footer({}) {
           )}
         </Anchor>
       </Link>
-      <Link href="/social/social" passHref>
+      <Link href="/social" passHref>
         <Anchor>
-          {router.pathname === "/social/social" || router.pathname === `/social/friendtimeline/[userId]` ? (
+          {router.pathname === "/social" || router.pathname === `/social/friendtimeline/[userId]` ? (
             <Image src="/SVG/socialSelected.svg" height={50} width={50} alt="social nav item" />
           ) : (
             <Image src="/SVG/social.svg" height={50} width={50} alt="social nav item" />
