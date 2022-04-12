@@ -134,7 +134,7 @@ export default function Social() {
             <ModalContent>
               <RemoveFriendContainer>
                 <p>
-                  Möchten Sie das ausgewählten
+                  Möchten Sie den ausgewählten
                   <br /> Freund wirklich löschen?
                 </p>
                 <RemoveFriendOptions>
