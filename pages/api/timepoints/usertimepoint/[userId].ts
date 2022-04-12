@@ -1,16 +1,17 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
-import Timepoint from "../../../Schema/Timepoint";
-import { connectDb } from "../../../utils/db";
+import Timepoint from "../../../../Schema/Timepoint";
+import { connectDb } from "../../../../utils/db";
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   try {
+    const { userId } = request.query;
     connectDb();
     const session = await getSession({ req: request });
     switch (request.method) {
       case "GET":
         if (session) {
-          const timepoints = await Timepoint.find().where({ userId: session.user.id });
+          const timepoints = await Timepoint.find().where({ userId: userId });
           response.status(200).json(timepoints);
         } else {
           response.status(401).json({ error: "Not authenticated" });
@@ -20,7 +21,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
         if (session) {
           const createdTimepoint = await Timepoint.create({
             ...request.body,
-            userId: session.user.id,
+            userId: userId,
           });
           response.status(200).json({ success: true, data: createdTimepoint });
         } else {

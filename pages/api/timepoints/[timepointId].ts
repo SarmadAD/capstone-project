@@ -3,9 +3,8 @@ import Timepoint from "../../../Schema/Timepoint";
 import { connectDb } from "../../../utils/db";
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
-  const { timepointId } = request.query;
-
   try {
+    const { timepointId } = request.query;
     connectDb();
     switch (request.method) {
       case "PATCH":

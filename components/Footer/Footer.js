@@ -16,9 +16,9 @@ export default function Footer({}) {
           )}
         </Anchor>
       </Link>
-      <Link href="/social" passHref>
+      <Link href="/social/social" passHref>
         <Anchor>
-          {router.pathname === "/social" ? (
+          {router.pathname === "/social/social" || router.pathname === `/social/friendtimeline/[userId]` ? (
             <Image src="/SVG/socialSelected.svg" height={50} width={50} alt="social nav item" />
           ) : (
             <Image src="/SVG/social.svg" height={50} width={50} alt="social nav item" />
