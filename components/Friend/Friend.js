@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
+import { AppAnchor } from "../styledComponents/AppAnchor";
 
 export default function Friend({ userFriend, setRemoveFriendMode, openModal, setCurrentFriendUser }) {
   function handleRemoveFriend() {
@@ -13,9 +14,9 @@ export default function Friend({ userFriend, setRemoveFriendMode, openModal, set
     <FriendContainer data-testid="friend">
       <FriendNameContainer>
         <Link href={`/social/friendtimeline/${userFriend._id}`} passHref>
-          <Anchor>
+          <AppAnchor>
             <p>{userFriend.name}</p>
-          </Anchor>
+          </AppAnchor>
         </Link>
       </FriendNameContainer>
       <RemoveFriendButton>
@@ -53,12 +54,4 @@ const RemoveFriendButton = styled.button`
   :active {
     background-color: rgb(101, 95, 138);
   }
-`;
-
-const Anchor = styled.a`
-  display: flex;
-  color: inherit;
-  text-decoration: inherit;
-  background-color: inherit;
-  width: 100%;
 `;

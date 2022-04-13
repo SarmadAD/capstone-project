@@ -4,6 +4,9 @@ import styled from "styled-components";
 import useSWR from "swr";
 import Loading from "../../../../components/Loading/Loading";
 import TimepointList from "../../../../components/TimepointList/TimepointList";
+import Image from "next/image";
+import Link from "next/link";
+import { AppAnchor } from "../../../../components/styledComponents/AppAnchor";
 
 export default function FriendTimeline() {
   const router = useRouter();
@@ -12,6 +15,13 @@ export default function FriendTimeline() {
   const textForNoTimepoints = "Keine Timeline hier...";
   return (
     <FriendTimelineContainer>
+      <BackButtonContainer>
+        <Link href="/social/" passHref>
+          <AppAnchor>
+            <Image src="/SVG/arrowBack.svg" height={35} width={35} alt="back to friend list" className="backarrow" />
+          </AppAnchor>
+        </Link>
+      </BackButtonContainer>
       {timepoints.data && timepoints.data.length > 0 ? (
         <TimepointList listOfTimepoints={timepoints.data} readOnlyMode={true} />
       ) : timepoints.data && timepoints.data.length === 0 ? (
@@ -22,17 +32,20 @@ export default function FriendTimeline() {
     </FriendTimelineContainer>
   );
 }
-
 const FriendTimelineContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 5em;
   p {
     text-align: center;
     font-size: 2.5em;
     color: #ffffff;
   }
+`;
+
+const BackButtonContainer = styled.div`
+  margin-bottom: 1em;
 `;
 
 export async function getServerSideProps(context) {

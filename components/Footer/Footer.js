@@ -50,7 +50,6 @@ const FooterContainer = styled.div`
 `;
 
 const Anchor = styled.a`
-  border: 1px solid #000000;
   padding: 0.5em;
   width: 100%;
   text-align: center;
