@@ -1,5 +1,7 @@
 import Image from "next/image";
+import Link from "next/link";
 import styled from "styled-components";
+import { AppAnchor } from "../styledComponents/AppAnchor";
 
 export default function Friend({ userFriend, setRemoveFriendMode, openModal, setCurrentFriendUser }) {
   function handleRemoveFriend() {
@@ -7,10 +9,15 @@ export default function Friend({ userFriend, setRemoveFriendMode, openModal, set
     setCurrentFriendUser(userFriend);
     openModal(true);
   }
+
   return (
     <FriendContainer data-testid="friend">
       <FriendNameContainer>
-        <p>{userFriend.name}</p>
+        <Link href={`/social/friendtimeline/${userFriend._id}`} passHref>
+          <AppAnchor>
+            <p>{userFriend.name}</p>
+          </AppAnchor>
+        </Link>
       </FriendNameContainer>
       <RemoveFriendButton>
         <Image src="/SVG/removeFriend.svg" height={40} width={40} alt="remove friend button" onClick={handleRemoveFriend} />
@@ -22,6 +29,7 @@ export default function Friend({ userFriend, setRemoveFriendMode, openModal, set
 const FriendNameContainer = styled.div`
   display: flex;
   width: 100%;
+  align-items: flex-start;
   border-radius: 15px;
   :active {
     background-color: rgb(101, 95, 138);

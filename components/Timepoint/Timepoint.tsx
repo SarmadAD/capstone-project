@@ -5,7 +5,7 @@ import "react-vertical-timeline-component/style.min.css";
 import styled from "styled-components";
 import { TimePointTypeList } from "../../model/TimePointTypeList";
 
-export default function Timepoint({ timepoint, setEditTimepointMode, setDeleteTimepointMode, setCurrentTimepoint, openModal }) {
+export default function Timepoint({ timepoint, setEditTimepointMode, setDeleteTimepointMode, setCurrentTimepoint, openModal, readOnlyMode }) {
   const iconTimepointStyle = TimePointTypeList.find((iconStyle) => iconStyle.type == timepoint.type);
   const timepointStyle = {
     background: "#FFFFFFF",
@@ -46,10 +46,14 @@ export default function Timepoint({ timepoint, setEditTimepointMode, setDeleteTi
           <TimepointContent>{timepoint.content}</TimepointContent>
           <FooterTimePoint>
             <div>{timepoint.date}</div>
-            <EditDeleteContainer>
-              <Image src="/SVG/delete.svg" height={25} width={25} alt="delete" onClick={handleDeleteClick} />
-              <Image src="/SVG/edit.svg" height={25} width={25} alt="edit" onClick={handleEditClick} />
-            </EditDeleteContainer>
+            {readOnlyMode ? (
+              ""
+            ) : (
+              <EditDeleteContainer>
+                <Image src="/SVG/delete.svg" height={25} width={25} alt="delete" onClick={handleDeleteClick} />
+                <Image src="/SVG/edit.svg" height={25} width={25} alt="edit" onClick={handleEditClick} />
+              </EditDeleteContainer>
+            )}
           </FooterTimePoint>
         </TimepointContentRightSide>
       </TimepointContentContainer>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TimePointTypeList } from "../model/TimePointTypeList";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { AppButton } from "../components/styledComponents/AppButton";
 import { AppInput } from "../components/styledComponents/AppInput";
 import styled from "styled-components";
@@ -22,7 +22,8 @@ const resetTimepointObj = {
 };
 
 export default function Home() {
-  const timepoints = useSWR("/api/timepoints");
+  const { data: session } = useSession();
+  const timepoints = useSWR(`/api/timepoints/usertimepoint/${session.user.id}`);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [createTimepointMode, setCreateTimepointMode] = useState(false);
   const [editTimepointMode, setEditTimepointMode] = useState(false);
@@ -45,7 +46,7 @@ export default function Home() {
     try {
       event.preventDefault();
       if (createTimepointMode) {
-        const response = await fetch("/api/timepoints", {
+        const response = await fetch(`/api/timepoints/usertimepoint/${session.user.id}`, {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify(currentTimepoint),
@@ -124,6 +125,7 @@ export default function Home() {
           setDeleteTimepointMode={setDeleteTimepointMode}
           setCurrentTimepoint={setCurrentTimepoint}
           openModal={openModal}
+          readOnlyMode={false}
         />
       ) : timepoints.data && timepoints.data.length === 0 ? (
         <p>{textForNoTimepoints}</p>
@@ -220,9 +222,6 @@ const HomeContainer = styled.div`
     text-align: center;
     font-size: 2.5em;
     color: #ffffff;
-  }
-  .closeModalButton {
-    color: black;
   }
 `;
 

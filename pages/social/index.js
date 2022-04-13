@@ -1,14 +1,14 @@
 import { getSession, useSession } from "next-auth/react";
 import { useState } from "react";
-import { AppButton } from "../components/styledComponents/AppButton";
-import { AppInput } from "../components/styledComponents/AppInput";
+import { AppButton } from "../../components/styledComponents/AppButton";
+import { AppInput } from "../../components/styledComponents/AppInput";
 import Head from "next/head";
 import Image from "next/image";
-import Modal from "../components/Modal";
+import Modal from "../../components/Modal";
 import styled from "styled-components";
 import useSWR from "swr";
-import FriendsList from "../components/FriendsList/FriendsList";
-import Loading from "../components/Loading/Loading";
+import FriendsList from "../../components/FriendsList/FriendsList";
+import Loading from "../../components/Loading/Loading";
 
 export default function Social() {
   const resetFriendUser = {
