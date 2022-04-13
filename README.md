@@ -11,12 +11,6 @@
 With my time history you can create a timeline in which you add your experiences for example from the last vacation 🏝 , most important moments or just everyday things. 
 You can then share your timeline with other people. 
 
-<!-- GETTING STARTED -->
-## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 <!-- USAGE EXAMPLES -->
 ## Usage
 
