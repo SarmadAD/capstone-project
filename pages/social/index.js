@@ -51,10 +51,8 @@ export default function Social() {
         method: "POST",
         headers: { "content-type": "application/json" },
       });
-      const getUserWithCurrentEmail = await response.json();
       if (response.ok) {
         userfriends.mutate();
-        console.log(getUserWithCurrentEmail);
         closeModal();
       } else if (response.status == 404) {
         setError("User nicht gefunden");

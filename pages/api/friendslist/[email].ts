@@ -15,7 +15,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
           if (getUserWithCurrentEmail === undefined || getUserWithCurrentEmail === null) {
             response.status(404).json({ error: "User with the current Email not found." });
           } else {
-            await User.updateOne({ _id: getUserWithCurrentEmail._id }, { $addToSet: { friendsIds: [getUserWithCurrentEmail._id] } });
+            await User.updateOne({ _id: session.user.id }, { $addToSet: { friendsIds: [getUserWithCurrentEmail._id] } });
             response.status(200).json(getUserWithCurrentEmail);
           }
         } else {
