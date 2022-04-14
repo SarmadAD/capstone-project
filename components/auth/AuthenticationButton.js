@@ -1,5 +1,8 @@
 import { useSession, signIn, signOut } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/router";
+import styled from "styled-components";
+import { AppButton } from "../styledComponents/AppButton";
 
 export default function AuthenticationButton() {
   const { data: session } = useSession();
@@ -9,20 +12,7 @@ export default function AuthenticationButton() {
     router.push("/");
   }
   if (session) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "baseline",
-          justifyContent: "space-between",
-        }}
-      >
-        <span>Signed in as {session.user.name}</span>
-        <button onClick={handleOnClick} style={{ backgroundColor: "lightgray" }}>
-          Sign out
-        </button>
-      </div>
-    );
+    return <AppButton onClick={handleOnClick}>Sign out</AppButton>;
   }
   return (
     <div
