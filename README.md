@@ -1,5 +1,5 @@
 <div align="center">
-  <h3 align="center">my-timehistory</h3>
+  <h3 align="center">my time history</h3>
   <p align="center">
     A diary in the form of a timeline
     <br />
