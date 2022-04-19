@@ -5,7 +5,11 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
-    domains: ["avatars.githubusercontent.com"],
+    domains: ["avatars.githubusercontent.com", "res.cloudinary.com"],
+  },
+  env: {
+    PRESET: process.env.PRESET,
+    CLOUDNAME: process.env.CLOUDNAME,
   },
 };
 

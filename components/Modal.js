@@ -24,7 +24,7 @@ export default function Modal({ modalIsOpen, children, closeModal }) {
 
   return (
     <div>
-      <ReactModal isOpen={modalIsOpen} onRequestClose={closeModal} style={createTimePointModalStyle}>
+      <ReactModal ariaHideApp={false} isOpen={modalIsOpen} onRequestClose={closeModal} style={createTimePointModalStyle}>
         <ModalHeader>
           <button onClick={closeModal} className="closeModalButton">
             <Image src="/SVG/close.svg" height={25} width={25} alt="close button" />

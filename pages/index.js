@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { TimePointTypeList } from "../model/TimePointTypeList";
 import { getSession, useSession } from "next-auth/react";
 import { AppButton } from "../components/styledComponents/AppButton";
 import { AppInput } from "../components/styledComponents/AppInput";
+import useState from "react-usestateref";
 import styled from "styled-components";
 import Image from "next/image";
 import Modal from "../components/Modal";
@@ -11,6 +11,7 @@ import Combobox from "react-widgets/Combobox";
 import React from "react";
 import useSWR from "swr";
 import Loading from "../components/Loading/Loading";
+import axios from "axios";
 
 const resetTimepointObj = {
   id: 0,
@@ -29,6 +30,9 @@ export default function Home() {
   const [editTimepointMode, setEditTimepointMode] = useState(false);
   const [deleteTimepointMode, setDeleteTimepointMode] = useState(false);
   const [currentTimepoint, setCurrentTimepoint] = useState(resetTimepointObj);
+  const [currentImageData, setCurrentImageData, ref] = useState("");
+  const CLOUDNAME = process.env.CLOUDNAME;
+  const PRESET = process.env.PRESET;
 
   function openModal() {
     setModalIsOpen(true);
@@ -45,11 +49,12 @@ export default function Home() {
   async function handleOnSubmit(event) {
     try {
       event.preventDefault();
+      await imageUpload(event);
       if (createTimepointMode) {
         const response = await fetch(`/api/timepoints/usertimepoint/${session.user.id}`, {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify(currentTimepoint),
+          body: JSON.stringify({ timepoint: currentTimepoint, imageData: ref.current }),
         });
         if (response.ok) {
           timepoints.mutate();
@@ -70,6 +75,25 @@ export default function Home() {
       setCurrentTimepoint(resetTimepointObj);
       closeModal();
     }
+  }
+
+  async function imageUpload(event) {
+    const url = `https://api.cloudinary.com/v1_1/${CLOUDNAME}/upload`;
+    const form = event.target;
+    const fileInput = form.elements.file;
+    const formData = new FormData();
+    for (const file of fileInput.files) {
+      formData.append("file", file);
+    }
+    formData.append("upload_preset", PRESET);
+    const response = await axios
+      .post(url, formData, {
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+      })
+      .catch((err) => console.error(err));
+    setCurrentImageData(response.data.url);
   }
 
   async function handleDelete() {
@@ -158,9 +182,7 @@ export default function Home() {
                 data={TimePointTypeList.map((TimePointType) => TimePointType["type"])}
                 onSelect={handleTypeChange}
               />
-              <AppButton value="Upload" className="uploadButton" type="button">
-                Upload
-              </AppButton>
+              <input type="file" name="file" />
               <AppButton value={createTimepointMode ? "Erstellen" : "Bearbeiten"} className="createEditButton" type="submit">
                 {createTimepointMode ? "Erstellen" : "Bearbeiten"}
               </AppButton>

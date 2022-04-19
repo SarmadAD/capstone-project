@@ -39,7 +39,11 @@ export default function Timepoint({ timepoint, setEditTimepointMode, setDeleteTi
     >
       <TimepointContentContainer>
         <ImageContainer>
-          <Image src="/Images/random.jpg" alt="The Image of the timepoint" width={100} height={35} className="timepointImage" />
+          {timepoint.picture ? (
+            <Image src={timepoint.picture} alt="The Image of the timepoint" width={100} height={35} className="timepointImage" />
+          ) : (
+            <Image src="/Images/random.jpg" alt="The Image of the timepoint" width={100} height={35} className="timepointImage" />
+          )}
         </ImageContainer>
         <TimepointContentRightSide>
           <TimepointHeader>{timepoint.title}</TimepointHeader>
