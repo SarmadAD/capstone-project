@@ -1,8 +1,9 @@
 import Image from "next/image";
 import ReactModal from "react-modal";
 import styled from "styled-components";
+import Loading from "./Loading/Loading";
 
-export default function Modal({ modalIsOpen, children, closeModal }) {
+export default function Modal({ modalIsOpen, children, closeModal, isLoading }) {
   // function afterOpenModal() {
   //   // references are now sync'd and can be accessed.
   //   // subtitle.style.color = "#f00";
@@ -31,6 +32,11 @@ export default function Modal({ modalIsOpen, children, closeModal }) {
           </button>
         </ModalHeader>
         {children}
+        {isLoading && (
+          <LoadingContainer>
+            <Loading />
+          </LoadingContainer>
+        )}
       </ReactModal>
     </div>
   );
@@ -41,4 +47,13 @@ const ModalHeader = styled.div`
   justify-content: flex-end;
   color: #ffffff;
   margin-bottom: 1em;
+`;
+
+const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+  object {
+    width: 50%;
+  }
 `;

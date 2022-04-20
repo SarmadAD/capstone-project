@@ -40,9 +40,9 @@ export default function Timepoint({ timepoint, setEditTimepointMode, setDeleteTi
       <TimepointContentContainer>
         <ImageContainer>
           {timepoint.picture ? (
-            <Image src={timepoint.picture} alt="The Image of the timepoint" width={100} height={35} className="timepointImage" />
+            <Image src={timepoint.picture} alt="The Image of the timepoint" width={100} height={100} className="timepointImage" />
           ) : (
-            <Image src="/Images/random.jpg" alt="The Image of the timepoint" width={100} height={35} className="timepointImage" />
+            <Image src="/Images/random.jpg" alt="The Image of the timepoint" width={100} height={100} className="timepointImage" />
           )}
         </ImageContainer>
         <TimepointContentRightSide>
@@ -79,6 +79,7 @@ const TimepointContentRightSide = styled.div`
 
 const ImageContainer = styled.div`
   display: flex;
+  width: 30%;
   border-radius: 26px 0px 0px 26px;
 
   .timepointImage {

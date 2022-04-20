@@ -26,6 +26,7 @@ export default function Home() {
   const { data: session } = useSession();
   const timepoints = useSWR(`/api/timepoints/usertimepoint/${session.user.id}`);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [createTimepointMode, setCreateTimepointMode] = useState(false);
   const [editTimepointMode, setEditTimepointMode] = useState(false);
   const [deleteTimepointMode, setDeleteTimepointMode] = useState(false);
@@ -44,11 +45,13 @@ export default function Home() {
     setEditTimepointMode(false);
     setCreateTimepointMode(false);
     setDeleteTimepointMode(false);
+    setIsLoading(false);
   }
 
   async function handleOnSubmit(event) {
     try {
       event.preventDefault();
+      setIsLoading(true);
       await imageUpload(event);
       if (createTimepointMode) {
         const response = await fetch(`/api/timepoints/usertimepoint/${session.user.id}`, {
@@ -63,7 +66,7 @@ export default function Home() {
         const response = await fetch(`/api/timepoints/${currentTimepoint._id}`, {
           method: "PATCH",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify(currentTimepoint),
+          body: JSON.stringify({ timepoint: currentTimepoint, imageData: ref.current }),
         });
         if (response.ok) {
           timepoints.mutate();
@@ -73,6 +76,7 @@ export default function Home() {
       console.error();
     } finally {
       setCurrentTimepoint(resetTimepointObj);
+      setIsLoading(false);
       closeModal();
     }
   }
@@ -164,7 +168,7 @@ export default function Home() {
       </AddTimepointContainer>
 
       {(createTimepointMode || editTimepointMode) && (
-        <Modal modalIsOpen={modalIsOpen} closeModal={closeModal}>
+        <Modal modalIsOpen={modalIsOpen} closeModal={closeModal} isLoading={isLoading}>
           <ModalContent>
             <CreateTimepointModalForm onSubmit={handleOnSubmit}>
               <AppInput name="title" placeholder="Title" value={currentTimepoint.title.toString()} onChange={handleOnChangeForm} required />
@@ -183,7 +187,7 @@ export default function Home() {
                 onSelect={handleTypeChange}
               />
               <input type="file" name="file" />
-              <AppButton value={createTimepointMode ? "Erstellen" : "Bearbeiten"} className="createEditButton" type="submit">
+              <AppButton value={createTimepointMode ? "Erstellen" : "Bearbeiten"} className="createEditButton" type="submit" disabled={isLoading}>
                 {createTimepointMode ? "Erstellen" : "Bearbeiten"}
               </AppButton>
             </CreateTimepointModalForm>
@@ -192,7 +196,7 @@ export default function Home() {
       )}
 
       {deleteTimepointMode && (
-        <Modal modalIsOpen={modalIsOpen} closeModal={closeModal}>
+        <Modal modalIsOpen={modalIsOpen} closeModal={closeModal} isLoading={isLoading}>
           <ModalContent>
             <MondalDeleteContainer>
               <p>
