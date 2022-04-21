@@ -46,6 +46,7 @@ export default function Home() {
     setCreateTimepointMode(false);
     setDeleteTimepointMode(false);
     setIsLoading(false);
+    setCurrentImageData("");
   }
 
   async function handleOnSubmit(event) {
@@ -53,11 +54,16 @@ export default function Home() {
       event.preventDefault();
       setIsLoading(true);
       await imageUpload(event);
+      const updatedTimepointObj = {
+        timepoint: currentTimepoint,
+        imageData: currentTimepoint.picture === ref.current || ref.current === "" ? currentTimepoint.picture : ref.current,
+      };
+      const createdTimepointObj = { timepoint: currentTimepoint, imageData: ref.current };
       if (createTimepointMode) {
         const response = await fetch(`/api/timepoints/usertimepoint/${session.user.id}`, {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ timepoint: currentTimepoint, imageData: ref.current }),
+          body: JSON.stringify(createdTimepointObj),
         });
         if (response.ok) {
           timepoints.mutate();
@@ -66,7 +72,7 @@ export default function Home() {
         const response = await fetch(`/api/timepoints/${currentTimepoint._id}`, {
           method: "PATCH",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ timepoint: currentTimepoint, imageData: ref.current }),
+          body: JSON.stringify(updatedTimepointObj),
         });
         if (response.ok) {
           timepoints.mutate();
@@ -86,18 +92,20 @@ export default function Home() {
     const form = event.target;
     const fileInput = form.elements.file;
     const formData = new FormData();
-    for (const file of fileInput.files) {
-      formData.append("file", file);
+    if (fileInput != null && fileInput != undefined && fileInput.files.length > 0) {
+      for (const file of fileInput.files) {
+        formData.append("file", file);
+      }
+      formData.append("upload_preset", PRESET);
+      const response = await axios
+        .post(url, formData, {
+          headers: {
+            "Content-type": "multipart/form-data",
+          },
+        })
+        .catch((err) => console.error(err));
+      setCurrentImageData(response.data.url);
     }
-    formData.append("upload_preset", PRESET);
-    const response = await axios
-      .post(url, formData, {
-        headers: {
-          "Content-type": "multipart/form-data",
-        },
-      })
-      .catch((err) => console.error(err));
-    setCurrentImageData(response.data.url);
   }
 
   async function handleDelete() {
@@ -143,6 +151,10 @@ export default function Home() {
     openModal();
   }
 
+  function handleDeleteImageClick() {
+    setCurrentTimepoint((current) => ({ ...current, picture: "" }));
+  }
+
   const textForNoTimepoints = "Füge Timepoints hinzu, um deine Timeline zu erstellen";
   return (
     <HomeContainer>
@@ -186,7 +198,15 @@ export default function Home() {
                 data={TimePointTypeList.map((TimePointType) => TimePointType["type"])}
                 onSelect={handleTypeChange}
               />
-              <input type="file" name="file" />
+              {currentTimepoint.picture != "" ? (
+                <UploadContainer>
+                  <AppButton onClick={handleDeleteImageClick} name="delete">
+                    Bild löschen
+                  </AppButton>
+                </UploadContainer>
+              ) : (
+                <input type="file" name="file" className="uploadButtonstyle" disabled={isLoading} />
+              )}
               <AppButton value={createTimepointMode ? "Erstellen" : "Bearbeiten"} className="createEditButton" type="submit" disabled={isLoading}>
                 {createTimepointMode ? "Erstellen" : "Bearbeiten"}
               </AppButton>
@@ -262,7 +282,21 @@ const AddTimepointContainer = styled.div`
   }
 `;
 
-const ModalContent = styled.div``;
+const UploadContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const ModalContent = styled.div`
+  input[type="file"]::file-selector-button {
+    background: #9e94d6;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    border-radius: 19px;
+    padding: 1em;
+    margin-top: 0.5em;
+  }
+`;
 
 const CreateTimepointModalForm = styled.form`
   display: flex;

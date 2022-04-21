@@ -11,7 +11,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
         const updatedTimepoint = await Timepoint.findByIdAndUpdate(
           timepointId,
           {
-            $set: request.body,
+            $set: { ...request.body.timepoint, picture: request.body.imageData },
           },
           { returnDocument: "after", runValidators: true }
         );
