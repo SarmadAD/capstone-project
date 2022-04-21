@@ -11,9 +11,6 @@ export default async function handler(request: NextApiRequest, response: NextApi
             method: "POST",
             body: request.body,
           });
-
-          console.log(imageData);
-
           response.status(200).json({
             success: true,
             data: imageData,
@@ -23,7 +20,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
         }
         break;
       default:
-        console.log("request method was neither GET or POST");
+        console.log("request method was not POST");
         response.status(405).json({ error: "Method not allowed" });
         break;
     }
