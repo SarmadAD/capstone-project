@@ -35,8 +35,6 @@ export default function Home() {
   const [currentImageData, setCurrentImageData, ref] = useState("");
   const CLOUDNAME = process.env.CLOUDNAME;
   const PRESET = process.env.PRESET;
-  const list = { hidden: { opacity: 0 } };
-  const item = { hidden: { x: -10, opacity: 0 } };
 
   function openModal() {
     setModalIsOpen(true);
