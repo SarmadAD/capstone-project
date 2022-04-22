@@ -2,6 +2,7 @@ import { TimePointTypeList } from "../model/TimePointTypeList";
 import { getSession, useSession } from "next-auth/react";
 import { AppButton } from "../components/styledComponents/AppButton";
 import { AppInput } from "../components/styledComponents/AppInput";
+import { motion } from "framer-motion";
 import useState from "react-usestateref";
 import styled from "styled-components";
 import Image from "next/image";
@@ -34,6 +35,8 @@ export default function Home() {
   const [currentImageData, setCurrentImageData, ref] = useState("");
   const CLOUDNAME = process.env.CLOUDNAME;
   const PRESET = process.env.PRESET;
+  const list = { hidden: { opacity: 0 } };
+  const item = { hidden: { x: -10, opacity: 0 } };
 
   function openModal() {
     setModalIsOpen(true);
@@ -160,6 +163,8 @@ export default function Home() {
     <HomeContainer>
       {timepoints.data && timepoints.data.length > 0 ? (
         <TimepointList
+          animate={{ scale: 2 }}
+          transition={{ duration: 0.5 }}
           listOfTimepoints={timepoints.data}
           setEditTimepointMode={setEditTimepointMode}
           setDeleteTimepointMode={setDeleteTimepointMode}
@@ -175,7 +180,7 @@ export default function Home() {
 
       <AddTimepointContainer>
         <button onClick={handleCreateTimepoint}>
-          <Image src="/SVG/add.svg" height={75} width={75} alt="add timepoint button" />
+          <Image src="/SVG/add.svg" height={50} width={50} alt="add timepoint button" />
         </button>
       </AddTimepointContainer>
 
@@ -191,6 +196,7 @@ export default function Home() {
                 value={currentTimepoint.content.toString()}
                 onChange={handleOnChangeForm}
                 required
+                rows="4"
               />
               <Combobox
                 defaultValue={TimePointTypeList[0].type}
@@ -279,6 +285,7 @@ const AddTimepointContainer = styled.div`
   button {
     background-color: #9e94d6;
     border-radius: 50%;
+    padding: 1.0em;
   }
 `;
 

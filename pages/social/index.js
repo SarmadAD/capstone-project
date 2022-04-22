@@ -153,7 +153,10 @@ export default function Social() {
 }
 
 const SocialContainer = styled.div`
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   p {
     text-align: center;
     font-size: 2.5em;

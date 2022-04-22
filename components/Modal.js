@@ -20,6 +20,7 @@ export default function Modal({ modalIsOpen, children, closeModal, isLoading }) 
       border: "2px solid #FFFFFF",
       borderRadius: "15px",
       padding: "2em",
+      maxWidth: "335px",
     },
   };
 
@@ -47,6 +48,9 @@ const ModalHeader = styled.div`
   justify-content: flex-end;
   color: #ffffff;
   margin-bottom: 1em;
+  .closeModalButton {
+    all: unset;
+  }
 `;
 
 const LoadingContainer = styled.div`
@@ -54,6 +58,6 @@ const LoadingContainer = styled.div`
   justify-content: center;
   margin-top: 1em;
   object {
-    width: 50%;
+    width: 40%;
   }
 `;

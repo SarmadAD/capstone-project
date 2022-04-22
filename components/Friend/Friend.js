@@ -2,8 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
 import { AppAnchor } from "../styledComponents/AppAnchor";
+import { motion } from "framer-motion";
 
 export default function Friend({ userFriend, setRemoveFriendMode, openModal, setCurrentFriendUser }) {
+  const itemVariants = {
+    initial: {
+      opacity: 0,
+      y: 100,
+    },
+    default: {
+      opacity: 1,
+      y: 0,
+    },
+    exit: {
+      y: 100,
+      opacity: 0,
+    },
+  };
   function handleRemoveFriend() {
     setRemoveFriendMode(true);
     setCurrentFriendUser(userFriend);
@@ -11,7 +26,7 @@ export default function Friend({ userFriend, setRemoveFriendMode, openModal, set
   }
 
   return (
-    <FriendContainer data-testid="friend">
+    <FriendContainer data-testid="friend" variants={itemVariants} initial="initial" animate="default" exit="exit">
       <FriendNameContainer>
         <Link href={`/social/friendtimeline/${userFriend._id}`} passHref>
           <AppAnchor>
@@ -36,7 +51,7 @@ const FriendNameContainer = styled.div`
   }
 `;
 
-const FriendContainer = styled.div`
+const FriendContainer = styled(motion.div)`
   display: flex;
   justify-content: space-between;
   background-color: #9e94d6;
