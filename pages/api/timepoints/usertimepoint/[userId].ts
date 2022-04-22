@@ -20,8 +20,9 @@ export default async function handler(request: NextApiRequest, response: NextApi
       case "POST":
         if (session) {
           const createdTimepoint = await Timepoint.create({
-            ...request.body,
+            ...request.body.timepoint,
             userId: userId,
+            picture: request.body.imageData,
           });
           response.status(200).json({ success: true, data: createdTimepoint });
         } else {

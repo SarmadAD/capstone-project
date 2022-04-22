@@ -1,20 +1,34 @@
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import Image from "next/image";
 import React from "react";
-import "react-vertical-timeline-component/style.min.css";
 import styled from "styled-components";
 import { TimePointTypeList } from "../../model/TimePointTypeList";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Timepoint({ timepoint, setEditTimepointMode, setDeleteTimepointMode, setCurrentTimepoint, openModal, readOnlyMode }) {
   const iconTimepointStyle = TimePointTypeList.find((iconStyle) => iconStyle.type == timepoint.type);
   const timepointStyle = {
     background: "#FFFFFFF",
     color: "#000000",
-    width: "100%",
     borderRadius: "26px",
     boxShadow: "0px 0px 13px 0px rgba(255,255,255,0.42)",
     padding: 0,
     paddingRight: "1em",
+  };
+
+  const itemVariants = {
+    initial: {
+      opacity: 0,
+      y: 100,
+    },
+    default: {
+      opacity: 1,
+      y: 0,
+    },
+    exit: {
+      y: 100,
+      opacity: 0,
+    },
   };
 
   function handleEditClick() {
@@ -30,51 +44,63 @@ export default function Timepoint({ timepoint, setEditTimepointMode, setDeleteTi
   }
 
   return (
-    <VerticalTimelineElement
-      className="vertical-timeline-element--work"
-      contentStyle={timepointStyle}
-      contentArrowStyle={{ borderRight: "7px solid  #FFFFFF" }}
-      iconStyle={{ background: iconTimepointStyle.color, color: "#fff", padding: "0.5em" }}
-      icon={<Image src={iconTimepointStyle.icon} alt={`${iconTimepointStyle.type} Icon`} width={50} height={50}></Image>}
-    >
-      <TimepointContentContainer>
-        <ImageContainer>
-          <Image src="/Images/random.jpg" alt="The Image of the timepoint" width={100} height={35} className="timepointImage" />
-        </ImageContainer>
-        <TimepointContentRightSide>
-          <TimepointHeader>{timepoint.title}</TimepointHeader>
-          <TimepointContent>{timepoint.content}</TimepointContent>
-          <FooterTimePoint>
-            <div>{timepoint.date}</div>
-            {readOnlyMode ? (
-              ""
+    <TimepointContainer variants={itemVariants} initial="initial" animate="default" exit="exit">
+      <VerticalTimelineElement
+        contentStyle={timepointStyle}
+        contentArrowStyle={{ borderRight: "7px solid  #FFFFFF" }}
+        iconStyle={{ background: iconTimepointStyle.color, color: "#fff", padding: "0.5em" }}
+        icon={<Image src={iconTimepointStyle.icon} alt={`${iconTimepointStyle.type} Icon`} width={50} height={50}></Image>}
+      >
+        <TimepointContentContainer>
+          <ImageContainer>
+            {timepoint.picture ? (
+              <Image src={timepoint.picture} alt="The Image of the timepoint" width={100} height={100} className="timepointImage" />
             ) : (
-              <EditDeleteContainer>
-                <Image src="/SVG/delete.svg" height={25} width={25} alt="delete" onClick={handleDeleteClick} />
-                <Image src="/SVG/edit.svg" height={25} width={25} alt="edit" onClick={handleEditClick} />
-              </EditDeleteContainer>
+              <Image src="/Images/random.jpg" alt="The Image of the timepoint" width={100} height={100} className="timepointImage" />
             )}
-          </FooterTimePoint>
-        </TimepointContentRightSide>
-      </TimepointContentContainer>
-    </VerticalTimelineElement>
+          </ImageContainer>
+          <TimepointContentRightSide>
+            <TimepointHeader>{timepoint.title}</TimepointHeader>
+            <TimepointContent>{timepoint.content}</TimepointContent>
+            <FooterTimePoint>
+              <div>{timepoint.date}</div>
+              {readOnlyMode ? (
+                ""
+              ) : (
+                <EditDeleteContainer>
+                  <Image src="/SVG/delete.svg" height={25} width={25} alt="delete" onClick={handleDeleteClick} />
+                  <Image src="/SVG/edit.svg" height={25} width={25} alt="edit" onClick={handleEditClick} />
+                </EditDeleteContainer>
+              )}
+            </FooterTimePoint>
+          </TimepointContentRightSide>
+        </TimepointContentContainer>
+      </VerticalTimelineElement>
+    </TimepointContainer>
   );
 }
 
+const TimepointContainer = styled(motion.div)`
+  margin-top: 1em;
+`;
+
 const TimepointContentContainer = styled.div`
   display: flex;
+  width: 100%;
   max-height: 150px;
+  max-width: 280px;
 `;
 
 const TimepointContentRightSide = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 1em;
-  width: 70%;
+  width: 60%;
 `;
 
 const ImageContainer = styled.div`
   display: flex;
+  width: 40%;
   border-radius: 26px 0px 0px 26px;
 
   .timepointImage {

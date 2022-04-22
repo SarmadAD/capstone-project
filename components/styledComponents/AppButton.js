@@ -10,4 +10,7 @@ export const AppButton = styled.button`
   :active {
     background-color: rgb(101, 95, 138);
   }
+  :disabled {
+    background-color: grey;
+  }
 `;
