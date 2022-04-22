@@ -193,7 +193,6 @@ export default function Home() {
                 placeholder="Beschreibung..."
                 value={currentTimepoint.content.toString()}
                 onChange={handleOnChangeForm}
-                required
                 rows="4"
               />
               <Combobox
@@ -283,7 +282,7 @@ const AddTimepointContainer = styled.div`
   button {
     background-color: #9e94d6;
     border-radius: 50%;
-    padding: 1.0em;
+    padding: 1em;
   }
 `;
 
@@ -329,6 +328,7 @@ const ModalTextArea = styled.textarea`
   border: 1px solid;
   border-radius: 15px;
   font-size: 1em;
+  font-family: Roboto;
 `;
 
 const MondalDeleteContainer = styled.div`

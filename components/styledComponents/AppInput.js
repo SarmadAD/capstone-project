@@ -6,4 +6,5 @@ export const AppInput = styled.input`
   border: 1px solid;
   border-radius: 15px;
   font-size: 1em;
+  font-family: Roboto;
 `;

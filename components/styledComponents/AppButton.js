@@ -7,6 +7,7 @@ export const AppButton = styled.button`
   border-radius: 19px;
   padding: 1em;
   margin-top: 0.5em;
+  font-family: Roboto;
   :active {
     background-color: rgb(101, 95, 138);
   }
