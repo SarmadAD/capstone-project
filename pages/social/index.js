@@ -156,6 +156,7 @@ const SocialContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: 2em;
   align-items: center;
   p {
     text-align: center;
