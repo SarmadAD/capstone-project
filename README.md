@@ -11,9 +11,24 @@
 With my time history you can create a timeline in which you add your experiences for example from the last vacation 🏝, most important moments or just everyday things. 
 You can then share your timeline with other people. 
 
-<!-- USAGE EXAMPLES -->
+## Install
+
+```sh
+npm install
+```
+
 ## Usage
 
+```sh
+npm run dev
+```
+
+## Run tests
+
+```sh
+npm run test
+```
+---
 ### Authentication 
 In the moment you have the possibility to log in with a GitHub Account. 
 ### Navigate 
