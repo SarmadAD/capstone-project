@@ -5,6 +5,7 @@ import "react-vertical-timeline-component/style.min.css";
 import React from "react";
 import Timepoint from "../Timepoint/Timepoint";
 import { motion } from "framer-motion";
+import { useSession } from "next-auth/react";
 
 export default function TimepointList({
   listOfTimepoints,
@@ -14,6 +15,8 @@ export default function TimepointList({
   openModal,
   readOnlyMode,
 }) {
+  const textForNoTimepoints = "Keine Timeline hier...";
+  const { data: session } = useSession();
   const myVariants = {
     initial: {
       opacity: 0,
@@ -32,21 +35,27 @@ export default function TimepointList({
       transition: { staggerChildren: 0.8 },
     },
   };
+
+  const filterListOfTimepoints = listOfTimepoints.filter((timepoint: TimepointModel) => timepoint.visible || timepoint.userId === session.user.id);
   return (
     <TimepointListContainer variants={myVariants} initial="initial" animate="default" exit="exit">
-      <VerticalTimeline layout={"1-column-left"} animate={false}>
-        {listOfTimepoints.map((timepoint: TimepointModel) => (
-          <Timepoint
-            key={timepoint._id}
-            timepoint={timepoint}
-            setEditTimepointMode={setEditTimepointMode}
-            setCurrentTimepoint={setCurrentTimepoint}
-            openModal={openModal}
-            setDeleteTimepointMode={setDeleteTimepointMode}
-            readOnlyMode={readOnlyMode}
-          />
-        ))}
-      </VerticalTimeline>
+      {filterListOfTimepoints.length > 0 ? (
+        <VerticalTimeline layout={"1-column-left"} animate={false}>
+          {filterListOfTimepoints.map((timepoint: TimepointModel) => (
+            <Timepoint
+              key={timepoint._id}
+              timepoint={timepoint}
+              setEditTimepointMode={setEditTimepointMode}
+              setCurrentTimepoint={setCurrentTimepoint}
+              openModal={openModal}
+              setDeleteTimepointMode={setDeleteTimepointMode}
+              readOnlyMode={readOnlyMode}
+            />
+          ))}
+        </VerticalTimeline>
+      ) : (
+        <p>{textForNoTimepoints}</p>
+      )}
     </TimepointListContainer>
   );
 }
