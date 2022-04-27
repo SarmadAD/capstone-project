@@ -7,6 +7,7 @@ const timepointSchema = new Schema(
     picture: { type: String },
     date: { type: String },
     type: { type: String },
+    visible: { type: Boolean },
     userId: { type: Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true }

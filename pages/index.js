@@ -13,6 +13,8 @@ import React from "react";
 import useSWR from "swr";
 import Loading from "../components/Loading/Loading";
 import axios from "axios";
+import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
+import { pink } from "@mui/material/colors";
 
 const resetTimepointObj = {
   id: 0,
@@ -20,6 +22,7 @@ const resetTimepointObj = {
   content: "",
   date: "",
   picture: "",
+  visible: true,
   type: TimePointTypeList[0].type,
 };
 
@@ -156,6 +159,10 @@ export default function Home() {
     setCurrentTimepoint((current) => ({ ...current, picture: "" }));
   }
 
+  function handleTimepointVisibleChange(event) {
+    setCurrentTimepoint((current) => ({ ...current, visible: event.target.checked }));
+  }
+
   const textForNoTimepoints = "Füge Timepoints hinzu, um deine Timeline zu erstellen";
   return (
     <HomeContainer>
@@ -201,6 +208,26 @@ export default function Home() {
                 data={TimePointTypeList.map((TimePointType) => TimePointType["type"])}
                 onSelect={handleTypeChange}
               />
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      defaultChecked
+                      size="medium"
+                      sx={{
+                        color: "#9e94d6",
+                        "&.Mui-checked": {
+                          color: "#9e94d6",
+                        },
+                      }}
+                      onChange={handleTimepointVisibleChange}
+                      checked={currentTimepoint.visible}
+                    />
+                  }
+                  label="Für Freunde sichtbar"
+                  labelPlacement="start"
+                />
+              </FormGroup>
               {currentTimepoint.picture != "" ? (
                 <UploadContainer>
                   <AppButton onClick={handleDeleteImageClick} name="delete">
