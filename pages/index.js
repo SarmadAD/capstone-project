@@ -14,7 +14,6 @@ import useSWR from "swr";
 import Loading from "../components/Loading/Loading";
 import axios from "axios";
 import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
-import { pink } from "@mui/material/colors";
 
 const resetTimepointObj = {
   id: 0,
