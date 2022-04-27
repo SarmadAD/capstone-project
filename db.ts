@@ -8,6 +8,8 @@ export const timepoints: TimepointModel[] = [
     picture: "url",
     date: "25.03.2019",
     type: "Beruflich",
+    visible: true,
+    userId: "234234234j23jk42k3j",
   },
   {
     _id: 2,
@@ -16,6 +18,8 @@ export const timepoints: TimepointModel[] = [
     picture: "url",
     date: "25.03.2019",
     type: "Urlaub",
+    visible: true,
+    userId: "234234234j23jk42k3j",
   },
   {
     _id: 3,
@@ -24,6 +28,8 @@ export const timepoints: TimepointModel[] = [
     picture: "url",
     date: "25.03.2019",
     type: "Beruflich",
+    visible: true,
+    userId: "234234234j23jk42k3j",
   },
   {
     _id: 4,
@@ -32,6 +38,8 @@ export const timepoints: TimepointModel[] = [
     picture: "url",
     date: "25.03.2019",
     type: "Beruflich",
+    visible: true,
+    userId: "234234234j23jk42k3j",
   },
   {
     _id: 5,
@@ -40,6 +48,8 @@ export const timepoints: TimepointModel[] = [
     picture: "url",
     date: "25.03.2019",
     type: "Urlaub",
+    visible: true,
+    userId: "234234234j23jk42k3j",
   },
   {
     _id: 6,
@@ -48,5 +58,7 @@ export const timepoints: TimepointModel[] = [
     picture: "url",
     date: "25.03.2019",
     type: "Beruflich",
+    visible: true,
+    userId: "234234234j23jk42k3j",
   },
 ];
