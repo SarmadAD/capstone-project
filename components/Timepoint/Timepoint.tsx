@@ -5,8 +5,17 @@ import styled from "styled-components";
 import { TimePointTypeList } from "../../model/TimePointTypeList";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function Timepoint({ timepoint, setEditTimepointMode, setDeleteTimepointMode, setCurrentTimepoint, openModal, readOnlyMode }) {
-  const iconTimepointStyle = TimePointTypeList.find((iconStyle) => iconStyle.type == timepoint.type);
+export default function Timepoint({
+  timepoint,
+  setEditTimepointMode,
+  setDeleteTimepointMode,
+  setCurrentTimepoint,
+  openModal,
+  readOnlyMode,
+}) {
+  const iconTimepointStyle = TimePointTypeList.find(
+    (iconStyle) => iconStyle.type == timepoint.type
+  );
   const timepointStyle = {
     background: "#FFFFFFF",
     color: "#000000",
@@ -31,6 +40,25 @@ export default function Timepoint({ timepoint, setEditTimepointMode, setDeleteTi
     },
   };
 
+  const shimmer = (w, h) => `
+    <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <defs>
+        <linearGradient id="g">
+          <stop stop-color="#333" offset="20%" />
+          <stop stop-color="#222" offset="50%" />
+          <stop stop-color="#333" offset="70%" />
+        </linearGradient>
+      </defs>
+      <rect width="${w}" height="${h}" fill="#333" />
+      <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
+      <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+    </svg>`;
+
+  const toBase64 = (str) =>
+    typeof window === "undefined"
+      ? Buffer.from(str).toString("base64")
+      : window.btoa(str);
+
   function handleEditClick() {
     setEditTimepointMode(true);
     setCurrentTimepoint(timepoint);
@@ -44,19 +72,55 @@ export default function Timepoint({ timepoint, setEditTimepointMode, setDeleteTi
   }
 
   return (
-    <TimepointContainer variants={itemVariants} initial="initial" animate="default" exit="exit">
+    <TimepointContainer
+      variants={itemVariants}
+      initial="initial"
+      animate="default"
+      exit="exit"
+    >
       <VerticalTimelineElement
         contentStyle={timepointStyle}
         contentArrowStyle={{ borderRight: "7px solid  #FFFFFF" }}
-        iconStyle={{ background: iconTimepointStyle.color, color: "#fff", padding: "0.5em" }}
-        icon={<Image src={iconTimepointStyle.icon} alt={`${iconTimepointStyle.type} Icon`} width={50} height={50}></Image>}
+        iconStyle={{
+          background: iconTimepointStyle.color,
+          color: "#fff",
+          padding: "0.5em",
+        }}
+        icon={
+          <Image
+            src={iconTimepointStyle.icon}
+            alt={`${iconTimepointStyle.type} Icon`}
+            width={50}
+            height={50}
+          ></Image>
+        }
       >
         <TimepointContentContainer>
           <ImageContainer>
             {timepoint.picture ? (
-              <Image src={timepoint.picture} alt="The Image of the timepoint" width={100} height={100} className="timepointImage" />
+              <Image
+                src={timepoint.picture}
+                placeholder="blur"
+                blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                  shimmer(100, 100)
+                )}`}
+                alt="The Image of the timepoint"
+                width={100}
+                height={100}
+                className="timepointImage"
+              />
             ) : (
-              <Image src="/Images/random.jpg" alt="The Image of the timepoint" width={100} height={100} className="timepointImage" />
+              <Image
+                src="/Images/random.jpg"
+                placeholder="blur"
+                blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                  shimmer(100, 100)
+                )}`}
+                alt="The Image of the timepoint"
+                width={100}
+                height={100}
+                className="timepointImage"
+              />
             )}
           </ImageContainer>
           <TimepointContentRightSide>
@@ -68,8 +132,20 @@ export default function Timepoint({ timepoint, setEditTimepointMode, setDeleteTi
                 ""
               ) : (
                 <EditDeleteContainer>
-                  <Image src="/SVG/delete.svg" height={25} width={25} alt="delete" onClick={handleDeleteClick} />
-                  <Image src="/SVG/edit.svg" height={25} width={25} alt="edit" onClick={handleEditClick} />
+                  <Image
+                    src="/SVG/delete.svg"
+                    height={25}
+                    width={25}
+                    alt="delete"
+                    onClick={handleDeleteClick}
+                  />
+                  <Image
+                    src="/SVG/edit.svg"
+                    height={25}
+                    width={25}
+                    alt="edit"
+                    onClick={handleEditClick}
+                  />
                 </EditDeleteContainer>
               )}
             </FooterTimePoint>
