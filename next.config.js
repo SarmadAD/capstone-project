@@ -5,7 +5,7 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
-    domains: ["avatars.githubusercontent.com", "res.cloudinary.com"],
+    domains: ["avatars.githubusercontent.com", "res.cloudinary.com", "lh3.googleusercontent.com"],
   },
   env: {
     PRESET: process.env.PRESET,

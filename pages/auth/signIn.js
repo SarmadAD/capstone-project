@@ -14,13 +14,13 @@ export default function SignIn({ providers }) {
   }, [session, router]);
 
   return (
-    <>
+    <LoginContainer>
       {Object.values(providers).map((provider) => (
-        <LoginContainer key={provider.name}>
+        <div key={provider.name}>
           <AppButton onClick={() => signIn(provider.id)}>Sign in with {provider.name}</AppButton>
-        </LoginContainer>
+        </div>
       ))}
-    </>
+    </LoginContainer>
   );
 }
 
