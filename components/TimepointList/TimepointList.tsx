@@ -39,7 +39,7 @@ export default function TimepointList({
   function sortTimepoints(a:TimepointModel, b:TimepointModel) {
     const date1 = Date.parse(a.date.toString());
     const date2 = Date.parse(b.date.toString());
-    return date1 - date2;
+    return date2 - date1;
   }
 
   const filterListOfTimepoints = listOfTimepoints
