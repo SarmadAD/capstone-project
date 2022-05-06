@@ -36,9 +36,25 @@ export default function TimepointList({
     },
   };
 
-  const filterListOfTimepoints = listOfTimepoints.filter((timepoint: TimepointModel) => timepoint.visible || timepoint.userId === session.user.id);
+  function sortTimepoints(a:TimepointModel, b:TimepointModel) {
+    const date1 = Date.parse(a.date.toString());
+    const date2 = Date.parse(b.date.toString());
+    return date1 - date2;
+  }
+
+  const filterListOfTimepoints = listOfTimepoints
+    .filter(
+      (timepoint: TimepointModel) =>
+        timepoint.visible || timepoint.userId === session.user.id
+    )
+    .sort(sortTimepoints);
   return (
-    <TimepointListContainer variants={myVariants} initial="initial" animate="default" exit="exit">
+    <TimepointListContainer
+      variants={myVariants}
+      initial="initial"
+      animate="default"
+      exit="exit"
+    >
       {filterListOfTimepoints.length > 0 ? (
         <VerticalTimeline layout={"1-column-left"} animate={false}>
           {filterListOfTimepoints.map((timepoint: TimepointModel) => (
