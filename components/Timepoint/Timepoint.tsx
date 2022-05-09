@@ -97,9 +97,9 @@ export default function Timepoint({
       >
         <TimepointContentContainer>
           <ImageContainer>
-            {timepoint.picture ? (
+            {timepoint.picture.url ? (
               <Image
-                src={timepoint.picture}
+                src={timepoint.picture.url}
                 placeholder="blur"
                 blurDataURL={`data:image/svg+xml;base64,${toBase64(
                   shimmer(100, 100)

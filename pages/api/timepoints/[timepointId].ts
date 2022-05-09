@@ -2,7 +2,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 import Timepoint from "../../../Schema/Timepoint";
 import { connectDb } from "../../../utils/db";
 
-export default async function handler(request: NextApiRequest, response: NextApiResponse) {
+export default async function handler(
+  request: NextApiRequest,
+  response: NextApiResponse
+) {
   try {
     const { timepointId } = request.query;
     connectDb();
@@ -11,7 +14,13 @@ export default async function handler(request: NextApiRequest, response: NextApi
         const updatedTimepoint = await Timepoint.findByIdAndUpdate(
           timepointId,
           {
-            $set: { ...request.body.timepoint, picture: request.body.imageData },
+            $set: {
+              ...request.body.timepoint,
+              picture: {
+                url: request.body.imageData.url,
+                publicId: request.body.imageData.publicId,
+              },
+            },
           },
           { returnDocument: "after", runValidators: true }
         );
@@ -25,7 +34,10 @@ export default async function handler(request: NextApiRequest, response: NextApi
         }
         break;
       case "DELETE":
-        const deletedTimepoint = await Timepoint.findOneAndDelete({ _id: timepointId }, { returnDocument: "after", runValidators: true });
+        const deletedTimepoint = await Timepoint.findOneAndDelete(
+          { _id: timepointId },
+          { returnDocument: "after", runValidators: true }
+        );
         if (deletedTimepoint) {
           response.status(200).json({
             success: true,

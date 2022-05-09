@@ -2,7 +2,7 @@ import { TimePointTypeList } from "../model/TimePointTypeList";
 import { getSession, useSession } from "next-auth/react";
 import { AppButton } from "../components/styledComponents/AppButton";
 import { AppInput } from "../components/styledComponents/AppInput";
-import { motion } from "framer-motion";
+import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import useState from "react-usestateref";
 import styled from "styled-components";
 import Image from "next/image";
@@ -13,14 +13,20 @@ import React from "react";
 import useSWR from "swr";
 import Loading from "../components/Loading/Loading";
 import axios from "axios";
-import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
+// import cloudinary from "cloudinary/lib/cloudinary";
+
+// cloudinary.config({
+//   cloud_name: process.env.CLOUDNAME,
+//   api_key: process.env.CLOUD_API_KEY,
+//   api_secret: process.env.CLOUD_API_SECRET,
+// });
 
 const resetTimepointObj = {
   id: 0,
   title: "",
   content: "",
   date: "",
-  picture: "",
+  picture: { url: "", publicId: "" },
   visible: true,
   type: TimePointTypeList[0].type,
 };
@@ -34,7 +40,10 @@ export default function Home() {
   const [editTimepointMode, setEditTimepointMode] = useState(false);
   const [deleteTimepointMode, setDeleteTimepointMode] = useState(false);
   const [currentTimepoint, setCurrentTimepoint] = useState(resetTimepointObj);
-  const [currentImageData, setCurrentImageData, ref] = useState("");
+  const [currentImageData, setCurrentImageData, ref] = useState({
+    url: "",
+    publicId: "",
+  });
   const CLOUDNAME = process.env.CLOUDNAME;
   const PRESET = process.env.PRESET;
 
@@ -49,7 +58,10 @@ export default function Home() {
     setCreateTimepointMode(false);
     setDeleteTimepointMode(false);
     setIsLoading(false);
-    setCurrentImageData("");
+    setCurrentImageData({
+      url: "",
+      publicId: "",
+    });
   }
 
   async function handleOnSubmit(event) {
@@ -59,24 +71,37 @@ export default function Home() {
       await imageUpload(event);
       const updatedTimepointObj = {
         timepoint: currentTimepoint,
-        imageData: currentTimepoint.picture === ref.current || ref.current === "" ? currentTimepoint.picture : ref.current,
+        imageData:
+          currentTimepoint.picture.url === ref.current.url ||
+          ref.current.url === ""
+            ? { url: currentTimepoint.picture.url, publicId: "" }
+            : { url: ref.current.url, publicId: ref.current.publicId },
       };
-      const createdTimepointObj = { timepoint: currentTimepoint, imageData: ref.current };
+      const createdTimepointObj = {
+        timepoint: currentTimepoint,
+        imageData: { url: ref.current.url, publicId: ref.current.publicId },
+      };
       if (createTimepointMode) {
-        const response = await fetch(`/api/timepoints/usertimepoint/${session.user.id}`, {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(createdTimepointObj),
-        });
+        const response = await fetch(
+          `/api/timepoints/usertimepoint/${session.user.id}`,
+          {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(createdTimepointObj),
+          }
+        );
         if (response.ok) {
           timepoints.mutate();
         }
       } else if (editTimepointMode) {
-        const response = await fetch(`/api/timepoints/${currentTimepoint._id}`, {
-          method: "PATCH",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(updatedTimepointObj),
-        });
+        const response = await fetch(
+          `/api/timepoints/${currentTimepoint._id}`,
+          {
+            method: "PATCH",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(updatedTimepointObj),
+          }
+        );
         if (response.ok) {
           timepoints.mutate();
         }
@@ -95,7 +120,11 @@ export default function Home() {
     const form = event.target;
     const fileInput = form.elements.file;
     const formData = new FormData();
-    if (fileInput != null && fileInput != undefined && fileInput.files.length > 0) {
+    if (
+      fileInput != null &&
+      fileInput != undefined &&
+      fileInput.files.length > 0
+    ) {
       for (const file of fileInput.files) {
         formData.append("file", file);
       }
@@ -107,7 +136,10 @@ export default function Home() {
           },
         })
         .catch((err) => console.error(err));
-      setCurrentImageData(response.data.url);
+      setCurrentImageData({
+        url: response.data.url,
+        publicId: response.data.public_id,
+      });
     }
   }
 
@@ -119,6 +151,14 @@ export default function Home() {
         body: JSON.stringify(currentTimepoint),
       });
       if (response.ok) {
+        // cloudinary.v2.uploader
+        //   .destroy(currentTimepoint.picture.publicId, function (error, result) {
+        //     console.log(result, error);
+        //   })
+        //   .then((resp) => console.log(resp))
+        //   .catch((_err) =>
+        //     console.log("Something went wrong, please try again later.")
+        //   );
         timepoints.mutate();
       }
     } catch (error) {
@@ -132,13 +172,22 @@ export default function Home() {
   function handleOnChangeForm(event) {
     switch (event.target.name) {
       case "title":
-        setCurrentTimepoint((current) => ({ ...current, title: event.target.value }));
+        setCurrentTimepoint((current) => ({
+          ...current,
+          title: event.target.value,
+        }));
         break;
       case "date":
-        setCurrentTimepoint((current) => ({ ...current, date: event.target.value }));
+        setCurrentTimepoint((current) => ({
+          ...current,
+          date: event.target.value,
+        }));
         break;
       case "content":
-        setCurrentTimepoint((current) => ({ ...current, content: event.target.value }));
+        setCurrentTimepoint((current) => ({
+          ...current,
+          content: event.target.value,
+        }));
         break;
       default:
         break;
@@ -159,10 +208,14 @@ export default function Home() {
   }
 
   function handleTimepointVisibleChange(event) {
-    setCurrentTimepoint((current) => ({ ...current, visible: event.target.checked }));
+    setCurrentTimepoint((current) => ({
+      ...current,
+      visible: event.target.checked,
+    }));
   }
 
-  const textForNoTimepoints = "Füge Timepoints hinzu, um deine Timeline zu erstellen";
+  const textForNoTimepoints =
+    "Füge Timepoints hinzu, um deine Timeline zu erstellen";
   return (
     <HomeContainer>
       {timepoints.data && timepoints.data.length > 0 ? (
@@ -184,16 +237,38 @@ export default function Home() {
 
       <AddTimepointContainer>
         <button onClick={handleCreateTimepoint}>
-          <Image src="/SVG/add.svg" height={50} width={50} alt="add timepoint button" />
+          <Image
+            src="/SVG/add.svg"
+            height={50}
+            width={50}
+            alt="add timepoint button"
+          />
         </button>
       </AddTimepointContainer>
 
       {(createTimepointMode || editTimepointMode) && (
-        <Modal modalIsOpen={modalIsOpen} closeModal={closeModal} isLoading={isLoading}>
+        <Modal
+          modalIsOpen={modalIsOpen}
+          closeModal={closeModal}
+          isLoading={isLoading}
+        >
           <ModalContent>
             <CreateTimepointModalForm onSubmit={handleOnSubmit}>
-              <AppInput name="title" placeholder="Title" value={currentTimepoint.title.toString()} onChange={handleOnChangeForm} required />
-              <AppInput name="date" placeholder="Date" type="date" value={currentTimepoint.date.toString()} onChange={handleOnChangeForm} required />
+              <AppInput
+                name="title"
+                placeholder="Title"
+                value={currentTimepoint.title.toString()}
+                onChange={handleOnChangeForm}
+                required
+              />
+              <AppInput
+                name="date"
+                placeholder="Date"
+                type="date"
+                value={currentTimepoint.date.toString()}
+                onChange={handleOnChangeForm}
+                required
+              />
               <ModalTextArea
                 name="content"
                 placeholder="Beschreibung..."
@@ -204,7 +279,9 @@ export default function Home() {
               <Combobox
                 defaultValue={TimePointTypeList[0].type}
                 value={currentTimepoint.type}
-                data={TimePointTypeList.map((TimePointType) => TimePointType["type"])}
+                data={TimePointTypeList.map(
+                  (TimePointType) => TimePointType["type"]
+                )}
                 onSelect={handleTypeChange}
               />
               <FormGroup>
@@ -227,16 +304,26 @@ export default function Home() {
                   labelPlacement="start"
                 />
               </FormGroup>
-              {currentTimepoint.picture != "" ? (
+              {currentTimepoint.picture.url != "" ? (
                 <UploadContainer>
                   <AppButton onClick={handleDeleteImageClick} name="delete">
                     Bild löschen
                   </AppButton>
                 </UploadContainer>
               ) : (
-                <input type="file" name="file" className="uploadButtonstyle" disabled={isLoading} />
+                <input
+                  type="file"
+                  name="file"
+                  className="uploadButtonstyle"
+                  disabled={isLoading}
+                />
               )}
-              <AppButton value={createTimepointMode ? "Erstellen" : "Bearbeiten"} className="createEditButton" type="submit" disabled={isLoading}>
+              <AppButton
+                value={createTimepointMode ? "Erstellen" : "Bearbeiten"}
+                className="createEditButton"
+                type="submit"
+                disabled={isLoading}
+              >
                 {createTimepointMode ? "Erstellen" : "Bearbeiten"}
               </AppButton>
             </CreateTimepointModalForm>
@@ -245,7 +332,11 @@ export default function Home() {
       )}
 
       {deleteTimepointMode && (
-        <Modal modalIsOpen={modalIsOpen} closeModal={closeModal} isLoading={isLoading}>
+        <Modal
+          modalIsOpen={modalIsOpen}
+          closeModal={closeModal}
+          isLoading={isLoading}
+        >
           <ModalContent>
             <MondalDeleteContainer>
               <p>
