@@ -62,7 +62,6 @@ export default function Timepoint({
   function handleEditClick() {
     setEditTimepointMode(true);
     setCurrentTimepoint(timepoint);
-    console.log(timepoint);
     openModal(true);
   }
 

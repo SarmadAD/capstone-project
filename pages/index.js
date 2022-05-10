@@ -189,7 +189,7 @@ export default function Home() {
   }
 
   function handleDeleteImageClick() {
-    setCurrentTimepoint((current) => ({ ...current, picture: {url:"", publicId:""} }));
+    setCurrentTimepoint((current) => ({ ...current, picture: {...current.picture, url:""} }));
   }
 
   function handleTimepointVisibleChange(event) {

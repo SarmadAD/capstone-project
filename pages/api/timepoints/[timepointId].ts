@@ -30,6 +30,10 @@ export default async function handler(
     connectDb();
     switch (request.method) {
       case "PATCH":
+        if(request.body.timepoint.picture.url === "" && request.body.timepoint.picture.publicId !== ""){
+          deleteImageFromCloudinary(request.body.timepoint);
+          request.body.timepoint.picture.publicId = "";
+        }
         const updatedTimepoint = await Timepoint.findByIdAndUpdate(
           timepointId,
           {
