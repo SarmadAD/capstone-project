@@ -4,7 +4,7 @@ const timepointSchema = new Schema(
   {
     title: { type: String },
     content: { type: String },
-    picture: { type: String },
+    picture: { url: String, publicId: String},
     date: { type: String },
     type: { type: String },
     visible: { type: Boolean },

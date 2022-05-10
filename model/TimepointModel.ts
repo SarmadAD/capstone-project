@@ -5,7 +5,7 @@ export type TimepointModel = {
   title: String;
   content: String;
   date: String;
-  picture: String;
+  picture: { url: String, publicId: String},
   visible: Boolean;
   type: String;
   userId: String;

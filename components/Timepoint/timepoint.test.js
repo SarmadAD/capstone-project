@@ -20,7 +20,7 @@ describe("CRUD Timepoint", () => {
     title: "testtitle",
     content: "testcontent",
     date: "25.2.2222",
-    picture: "testpicture",
+    picture: {url:"url", publicId:"sad"},
     type: "testtype",
   };
 
@@ -29,7 +29,7 @@ describe("CRUD Timepoint", () => {
     title: "testtitleupdated",
     content: "testcontentupdated",
     date: "25.2.2222",
-    picture: "testpicture",
+    picture: {url:"url", publicId:"sad"},
     type: "testtype",
   };
 

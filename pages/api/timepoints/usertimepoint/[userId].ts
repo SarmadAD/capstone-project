@@ -3,7 +3,10 @@ import { getSession } from "next-auth/react";
 import Timepoint from "../../../../Schema/Timepoint";
 import { connectDb } from "../../../../utils/db";
 
-export default async function handler(request: NextApiRequest, response: NextApiResponse) {
+export default async function handler(
+  request: NextApiRequest,
+  response: NextApiResponse
+) {
   try {
     const { userId } = request.query;
     connectDb();
@@ -22,7 +25,10 @@ export default async function handler(request: NextApiRequest, response: NextApi
           const createdTimepoint = await Timepoint.create({
             ...request.body.timepoint,
             userId: userId,
-            picture: request.body.imageData,
+            picture: {
+              url: request.body.imageData.url,
+              publicId: request.body.imageData.publicId,
+            },
           });
           response.status(200).json({ success: true, data: createdTimepoint });
         } else {
