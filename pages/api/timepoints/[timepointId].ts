@@ -1,6 +1,25 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { TimepointModel } from "../../../model/TimepointModel";
 import Timepoint from "../../../Schema/Timepoint";
 import { connectDb } from "../../../utils/db";
+var cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDNAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
+
+function deleteImageFromCloudinary(deletedTimepoint: TimepointModel) {
+  cloudinary.uploader
+    .destroy(deletedTimepoint.picture.publicId, function (error, result) {
+      console.log(result, error);
+    })
+    .then((resp) => console.log(resp))
+    .catch((_err) =>
+      console.log("Something went wrong, please try again later.")
+    );
+}
 
 export default async function handler(
   request: NextApiRequest,
@@ -43,6 +62,7 @@ export default async function handler(
             success: true,
             data: deletedTimepoint,
           });
+          deleteImageFromCloudinary(deletedTimepoint);
         } else {
           response.status(404).json({ error: "Not found" });
         }

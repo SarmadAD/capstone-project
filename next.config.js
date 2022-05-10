@@ -11,6 +11,6 @@ const nextConfig = {
     PRESET: process.env.PRESET,
     CLOUDNAME: process.env.CLOUDNAME,
   },
-};
+}
 
 module.exports = nextConfig;

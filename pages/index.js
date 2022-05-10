@@ -13,13 +13,6 @@ import React from "react";
 import useSWR from "swr";
 import Loading from "../components/Loading/Loading";
 import axios from "axios";
-// import cloudinary from "cloudinary/lib/cloudinary";
-
-// cloudinary.config({
-//   cloud_name: process.env.CLOUDNAME,
-//   api_key: process.env.CLOUD_API_KEY,
-//   api_secret: process.env.CLOUD_API_SECRET,
-// });
 
 const resetTimepointObj = {
   id: 0,
@@ -74,7 +67,7 @@ export default function Home() {
         imageData:
           currentTimepoint.picture.url === ref.current.url ||
           ref.current.url === ""
-            ? { url: currentTimepoint.picture.url, publicId: "" }
+            ? { url: currentTimepoint.picture.url, publicId: currentTimepoint.picture.publicId }
             : { url: ref.current.url, publicId: ref.current.publicId },
       };
       const createdTimepointObj = {
@@ -151,14 +144,6 @@ export default function Home() {
         body: JSON.stringify(currentTimepoint),
       });
       if (response.ok) {
-        // cloudinary.v2.uploader
-        //   .destroy(currentTimepoint.picture.publicId, function (error, result) {
-        //     console.log(result, error);
-        //   })
-        //   .then((resp) => console.log(resp))
-        //   .catch((_err) =>
-        //     console.log("Something went wrong, please try again later.")
-        //   );
         timepoints.mutate();
       }
     } catch (error) {
@@ -204,7 +189,7 @@ export default function Home() {
   }
 
   function handleDeleteImageClick() {
-    setCurrentTimepoint((current) => ({ ...current, picture: "" }));
+    setCurrentTimepoint((current) => ({ ...current, picture: {url:"", publicId:""} }));
   }
 
   function handleTimepointVisibleChange(event) {
