@@ -53,6 +53,7 @@ export default function Social() {
       });
       if (response.ok) {
         userfriends.mutate();
+        console.log("Here")
         closeModal();
       } else if (response.status == 404) {
         setError("User nicht gefunden");
