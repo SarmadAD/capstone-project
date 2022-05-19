@@ -24,7 +24,6 @@ export default function Friend({ userFriend, setRemoveFriendMode, openModal, set
     setCurrentFriendUser(userFriend);
     openModal(true);
   }
-
   return (
     <FriendContainer data-testid="friend" variants={itemVariants} initial="initial" animate="default" exit="exit">
       <FriendNameContainer>

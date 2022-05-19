@@ -4,6 +4,7 @@ declare module "next-auth" {
     user: {
       id: Key;
       friendsIds: [{ type: Schema.Types.ObjectId; ref: "User" }];
+      invitationIds: [{ type: Schema.Types.ObjectId, ref: "Invitation" }];
     } & DefaultSession["user"];
   }
 }
