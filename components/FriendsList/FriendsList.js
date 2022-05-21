@@ -28,6 +28,7 @@ export default function FriendsList({ status, userfriends, requestedFriends, set
         (userFriend) =>
           status === "accepted" && (
             <Friend
+              status={status}
               key={userFriend._id}
               userFriend={userFriend}
               setRemoveFriendMode={setRemoveFriendMode}
@@ -40,8 +41,9 @@ export default function FriendsList({ status, userfriends, requestedFriends, set
         (requestedFriend) =>
           status === "requested" && (
             <Friend
+            status={status}
               key={requestedFriend.user._id}
-              userFriend={requestedFriend.user}
+              userFriend={requestedFriend}
               setRemoveFriendMode={setRemoveFriendMode}
               openModal={openModal}
               setCurrentFriendUser={setCurrentFriendUser}

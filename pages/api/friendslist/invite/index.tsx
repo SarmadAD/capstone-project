@@ -22,7 +22,6 @@ export default async function handler(request: NextApiRequest, response: NextApi
             id: invite.requestedUserId,
             status: invite.status,
           }));
-          
           let users = await Promise.all(invitedUserIdAndStatusList.map(async(invitedUserIdAndStatus) => ({ 
             user: await User.findById({ _id: invitedUserIdAndStatus.id }),
             status: invitedUserIdAndStatus.status,
