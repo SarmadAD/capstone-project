@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Friend from "../Friend/Friend";
 import { motion } from "framer-motion";
 import { InviteStatus } from "../../utils/enum/InviteStatus";
+import RequestedFriend from "../Friend/RequestedFriend";
 
 export default function FriendsList({ status, userfriends, requestedFriends, setRemoveFriendMode, openModal, setCurrentFriendUser }) {
   const myVariants = {
@@ -24,32 +25,17 @@ export default function FriendsList({ status, userfriends, requestedFriends, set
   };
   return (
     <FriendsListContainer variants={myVariants} initial="initial" animate="default" exit="exit">
-      {userfriends.map(
-        (userFriend) =>
-          status === "accepted" && (
-            <Friend
-              status={status}
-              key={userFriend._id}
-              userFriend={userFriend}
-              setRemoveFriendMode={setRemoveFriendMode}
-              openModal={openModal}
-              setCurrentFriendUser={setCurrentFriendUser}
-            />
-          )
-      )}
-      {requestedFriends.map(
-        (requestedFriend) =>
-          status === "requested" && (
-            <Friend
-            status={status}
-              key={requestedFriend.user._id}
-              userFriend={requestedFriend}
-              setRemoveFriendMode={setRemoveFriendMode}
-              openModal={openModal}
-              setCurrentFriendUser={setCurrentFriendUser}
-            />
-          )
-      )}
+      {userfriends.map((userFriend) => (
+        <Friend
+          key={userFriend._id}
+          userFriend={userFriend}
+          setRemoveFriendMode={setRemoveFriendMode}
+          openModal={openModal}
+          setCurrentFriendUser={setCurrentFriendUser}
+        />
+      ))}
+      {status === "requested" &&
+        requestedFriends.map((requestedFriend) => <RequestedFriend key={requestedFriend.user._id} userFriend={requestedFriend} />)}
     </FriendsListContainer>
   );
 }

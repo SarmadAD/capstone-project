@@ -100,7 +100,6 @@ export default function Social() {
           {/* Angenommen */}
           {userfriends.data && userfriends.data.length > 0 ? (
             <FriendsList
-              status={"accepted"}
               userfriends={userfriends.data}
               requestedFriends={[]}
               setRemoveFriendMode={setRemoveFriendMode}
