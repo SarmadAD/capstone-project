@@ -48,7 +48,7 @@ export default function Social() {
   async function handleSubmit(event) {
     try {
       event.preventDefault();
-      const response = await fetch(`/api/friendslist/invite/${email}`, {
+      const response = await fetch(`/api/friendslist/invite/sendInvite/${email}`, {
         method: "POST",
         headers: { "content-type": "application/json" },
       });

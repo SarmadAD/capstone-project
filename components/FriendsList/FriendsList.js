@@ -35,7 +35,9 @@ export default function FriendsList({ status, userfriends, requestedFriends, set
         />
       ))}
       {status === "requested" &&
-        requestedFriends.map((requestedFriend) => <RequestedFriend key={requestedFriend.user._id} userFriend={requestedFriend} />)}
+        requestedFriends
+          .filter((requestedFriend) => requestedFriend.status !== InviteStatus.rejected && requestedFriend.status !== InviteStatus.accepted)
+          .map((requestedFriend) => <RequestedFriend key={requestedFriend.user._id} requestedFriend={requestedFriend} />)}
     </FriendsListContainer>
   );
 }

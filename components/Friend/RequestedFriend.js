@@ -1,7 +1,9 @@
 import Image from "next/image";
 import styled from "styled-components";
+import { useSession } from "next-auth/react";
 
-export default function RequestedFriend({ userFriend }) {
+export default function RequestedFriend({ requestedFriend }) {
+  const { data: session } = useSession();
   const itemVariants = {
     initial: {
       opacity: 0,
@@ -17,17 +19,34 @@ export default function RequestedFriend({ userFriend }) {
     },
   };
 
-  function handleAcceptInvition() {}
+  async function handleAcceptInvition() {
+    const response = await fetch(`/api/timepoints/usertimepoint/${session.user.id}`, {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(createdTimepointObj),
+    });
+    if (response.ok) {
+      timepoints.mutate();
+    }
+  }
 
-  function handleRejectInvition() {}
-
+  async function handleRejectInvition() {
+    const response = await fetch(`/api/friendslist/invite/acceptRejectInvite/reject/${requestedFriend.inviteId}`, {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+    });
+    if (response.ok) {
+    }
+  }
   return (
     <RequestedFriendContainer data-testid="friend" variants={itemVariants} initial="initial" animate="default" exit="exit">
       <FriendNameContainer>
-        <p>{userFriend.user.name}</p>
+        <p>{requestedFriend.user.name}</p>
       </FriendNameContainer>
       <InviteOptions>
-        <Image src="/SVG/check.svg" height={40} width={40} alt="accept invition" onClick={handleAcceptInvition} />
+        {session.user.id !== requestedFriend.requestingUserId && (
+          <Image src="/SVG/check.svg" height={40} width={40} alt="accept invition" onClick={handleAcceptInvition} />
+        )}
         <Image src="/SVG/cross.svg" height={40} width={40} alt="reject invition" onClick={handleRejectInvition} />
       </InviteOptions>
     </RequestedFriendContainer>

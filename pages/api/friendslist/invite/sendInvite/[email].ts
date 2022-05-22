@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import User from "../../../../Schema/User";
-import Invitation from "../../../../Schema/Invitation";
+import User from "../../../../../Schema/User";
+import Invitation from "../../../../../Schema/Invitation";
 import { getSession } from "next-auth/react";
-import { connectDb } from "../../../../utils/db";
-import { InviteStatus } from "../../../../utils/enum/InviteStatus";
+import { connectDb } from "../../../../../utils/db";
+import { InviteStatus } from "../../../../../utils/enum/InviteStatus";
 
 export default async function handler(
   request: NextApiRequest,

@@ -18,13 +18,18 @@ export default async function handler(request: NextApiRequest, response: NextApi
             },
           });
 
-          const invitedUserIdAndStatusList = getInvitations.map((invite: InvitiationModel) => ({
+          const invitedUserDataList = getInvitations.map((invite: InvitiationModel) => ({
             id: invite.requestedUserId,
+            inviteId:invite._id,
+            requestingUserId:invite.requestingUserId,
             status: invite.status,
           }));
-          let users = await Promise.all(invitedUserIdAndStatusList.map(async(invitedUserIdAndStatus) => ({ 
-            user: await User.findById({ _id: invitedUserIdAndStatus.id }),
-            status: invitedUserIdAndStatus.status,
+
+          let users = await Promise.all(invitedUserDataList.map(async(invitedUserData) => ({ 
+            user: await User.findById({ _id: invitedUserData.id }),
+            inviteId:invitedUserData.inviteId,
+            requestingUserId:invitedUserData.requestingUserId,
+            status: invitedUserData.status,
           })));
           response.status(200).json(users);
         } else {
