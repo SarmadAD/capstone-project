@@ -39,6 +39,10 @@ export default async function handler(
               { _id: session.user.id },
               { $addToSet: { invitationIds: [createdInvitation._id] } }
             );
+            await User.updateOne(
+              { _id: getUserWithCurrentEmail.id },
+              { $addToSet: { invitationIds: [createdInvitation._id] } }
+            );
             response.status(200).json("ok");
           }
         } else {

@@ -20,13 +20,11 @@ export default function RequestedFriend({ requestedFriend }) {
   };
 
   async function handleAcceptInvition() {
-    const response = await fetch(`/api/timepoints/usertimepoint/${session.user.id}`, {
+    const response = await fetch(`/api/friendslist/invite/acceptRejectInvite/accept/${requestedFriend.inviteId}`, {
       method: "PATCH",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify(createdTimepointObj),
     });
     if (response.ok) {
-      timepoints.mutate();
     }
   }
 

@@ -21,7 +21,7 @@ export default function Friend({ userFriend, setRemoveFriendMode, openModal, set
   };
   function handleRemoveFriend() {
     setRemoveFriendMode(true);
-    setCurrentFriendUser(userFriend.user);
+    setCurrentFriendUser(userFriend);
     openModal(true);
   }
 
