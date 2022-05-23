@@ -9,6 +9,7 @@ import styled from "styled-components";
 import useSWR from "swr";
 import FriendsList from "../../components/FriendsList/FriendsList";
 import Loading from "../../components/Loading/Loading";
+import { InviteStatus } from "../../utils/enum/InviteStatus";
 
 export default function Social() {
   const resetFriendUser = {
@@ -114,7 +115,8 @@ export default function Social() {
         </AcceptedFriendsList>
         <Invitation>
           {/* Angefragt/Anfragen */}
-          {requestedFriends.data && requestedFriends.data.length > 0 ? (
+          {requestedFriends.data &&
+          requestedFriends.data.length > 0 ? (
             <>
               <h2>Angefragt/Anfragen</h2>
               <FriendsList

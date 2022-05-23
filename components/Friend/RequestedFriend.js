@@ -39,7 +39,7 @@ export default function RequestedFriend({ requestedFriend }) {
   return (
     <RequestedFriendContainer data-testid="friend" variants={itemVariants} initial="initial" animate="default" exit="exit">
       <FriendNameContainer>
-        <p>{requestedFriend.user.name}</p>
+        <p>{requestedFriend.user.name}</p> 
       </FriendNameContainer>
       <InviteOptions>
         {session.user.id !== requestedFriend.requestingUserId && (

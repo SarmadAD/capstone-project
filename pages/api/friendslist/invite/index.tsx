@@ -4,6 +4,7 @@ import { InvitiationModel } from "../../../../model/InvitiationModel";
 import Invitation from "../../../../Schema/Invitation";
 import User from "../../../../Schema/User";
 import { connectDb } from "../../../../utils/db";
+import { InviteStatus } from "../../../../utils/enum/InviteStatus";
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   try {
@@ -18,7 +19,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
             },
           });
 
-          const invitedUserDataList = getInvitations.map((invite: InvitiationModel) => ({
+          const invitedUserDataList = getInvitations.filter(invite => invite.status === InviteStatus.requested).map((invite: InvitiationModel) => ({
             id: invite.requestedUserId,
             inviteId:invite._id,
             requestingUserId:invite.requestingUserId,
