@@ -21,7 +21,7 @@ export default function Social() {
 
   const textIfNoPersonAdded = "Füge Personen hinzu, um deren Timeline zu sehen";
   const userfriends = useSWR("/api/friendslist");
-  const requestedFriends = useSWR("/api/friendslist/invite");
+  const inviteData = useSWR("/api/friendslist/invite");
   const [modalIsOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -102,7 +102,7 @@ export default function Social() {
           {userfriends.data && userfriends.data.length > 0 ? (
             <FriendsList
               userfriends={userfriends.data}
-              requestedFriends={[]}
+              inviteData={[]}
               setRemoveFriendMode={setRemoveFriendMode}
               openModal={openModal}
               setCurrentFriendUser={setCurrentFriendUser}
@@ -115,20 +115,20 @@ export default function Social() {
         </AcceptedFriendsList>
         <Invitation>
           {/* Angefragt/Anfragen */}
-          {requestedFriends.data &&
-          requestedFriends.data.length > 0 ? (
+          {inviteData.data &&
+          inviteData.data.length > 0 ? (
             <>
               <h2>Angefragt/Anfragen</h2>
               <FriendsList
                 status={"requested"}
                 userfriends={[]}
-                requestedFriends={requestedFriends.data}
+                inviteData={inviteData.data}
                 setRemoveFriendMode={setRemoveFriendMode}
                 openModal={openModal}
                 setCurrentFriendUser={setCurrentFriendUser}
               />
             </>
-          ) : requestedFriends.data && requestedFriends.data.length === 0 ? (
+          ) : inviteData.data && inviteData.data.length === 0 ? (
             ""
           ) : (
             <Loading />

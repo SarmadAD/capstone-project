@@ -2,7 +2,7 @@ import Image from "next/image";
 import styled from "styled-components";
 import { useSession } from "next-auth/react";
 
-export default function RequestedFriend({ requestedFriend }) {
+export default function RequestedFriend({ invite }) {
   const { data: session } = useSession();
   const itemVariants = {
     initial: {
@@ -20,7 +20,7 @@ export default function RequestedFriend({ requestedFriend }) {
   };
 
   async function handleAcceptInvition() {
-    const response = await fetch(`/api/friendslist/invite/acceptRejectInvite/accept/${requestedFriend.inviteId}`, {
+    const response = await fetch(`/api/friendslist/invite/acceptRejectInvite/accept/${invite.inviteId}`, {
       method: "PATCH",
       headers: { "content-type": "application/json" },
     });
@@ -29,20 +29,21 @@ export default function RequestedFriend({ requestedFriend }) {
   }
 
   async function handleRejectInvition() {
-    const response = await fetch(`/api/friendslist/invite/acceptRejectInvite/reject/${requestedFriend.inviteId}`, {
+    const response = await fetch(`/api/friendslist/invite/acceptRejectInvite/reject/${invite.inviteId}`, {
       method: "PATCH",
       headers: { "content-type": "application/json" },
     });
     if (response.ok) {
     }
   }
+  console.log(invite);
   return (
     <RequestedFriendContainer data-testid="friend" variants={itemVariants} initial="initial" animate="default" exit="exit">
       <FriendNameContainer>
-        <p>{requestedFriend.user.name}</p> 
+        {session.user.id === invite.requestedUser._id ? <p>{invite.requestingUser.name}</p> : <p>{invite.requestedUser.name}</p>}
       </FriendNameContainer>
       <InviteOptions>
-        {session.user.id !== requestedFriend.requestingUserId && (
+        {session.user.id !== invite.requestingUser._id && (
           <Image src="/SVG/check.svg" height={40} width={40} alt="accept invition" onClick={handleAcceptInvition} />
         )}
         <Image src="/SVG/cross.svg" height={40} width={40} alt="reject invition" onClick={handleRejectInvition} />

@@ -19,19 +19,24 @@ export default async function handler(request: NextApiRequest, response: NextApi
             },
           });
 
-          const invitedUserDataList = getInvitations.filter(invite => invite.status === InviteStatus.requested).map((invite: InvitiationModel) => ({
-            id: invite.requestedUserId,
-            inviteId:invite._id,
-            requestingUserId:invite.requestingUserId,
-            status: invite.status,
-          }));
+          const invitedUserDataList = getInvitations
+            .filter((invite) => invite.status === InviteStatus.requested)
+            .map((invite: InvitiationModel) => ({
+              inviteId: invite._id,
+              requestedUserId: invite.requestedUserId,
+              requestingUserId: invite.requestingUserId,
+              status: invite.status,
+            }));
 
-          let users = await Promise.all(invitedUserDataList.map(async(invitedUserData) => ({ 
-            user: await User.findById({ _id: invitedUserData.id }),
-            inviteId:invitedUserData.inviteId,
-            requestingUserId:invitedUserData.requestingUserId,
-            status: invitedUserData.status,
-          })));
+          let users = await Promise.all(
+            invitedUserDataList.map(async (invitedUserData) => ({
+              inviteId: invitedUserData.inviteId,
+              requestedUser: await User.findById({ _id: invitedUserData.requestedUserId }),
+              requestingUser: await User.findById({ _id: invitedUserData.requestingUserId }),
+              // requestingUserId: invitedUserData.requestingUserId,
+              status: invitedUserData.status,
+            }))
+          );
           response.status(200).json(users);
         } else {
           response.status(401).json({ error: "Not authenticated" });

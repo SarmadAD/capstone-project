@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { InviteStatus } from "../../utils/enum/InviteStatus";
 import RequestedFriend from "../Friend/RequestedFriend";
 
-export default function FriendsList({ status, userfriends, requestedFriends, setRemoveFriendMode, openModal, setCurrentFriendUser }) {
+export default function FriendsList({ status, userfriends, inviteData, setRemoveFriendMode, openModal, setCurrentFriendUser }) {
   const myVariants = {
     initial: {
       opacity: 0,
@@ -35,9 +35,9 @@ export default function FriendsList({ status, userfriends, requestedFriends, set
         />
       ))}
       {status === "requested" &&
-        requestedFriends
-          .filter((requestedFriend) => requestedFriend.status !== InviteStatus.rejected && requestedFriend.status !== InviteStatus.accepted)
-          .map((requestedFriend) => <RequestedFriend key={requestedFriend.user._id} requestedFriend={requestedFriend} />)}
+        inviteData
+          .filter((invite) => invite.status !== InviteStatus.rejected && invite.status !== InviteStatus.accepted)
+          .map((invite) => <RequestedFriend key={invite.requestedUser._id} invite={invite} />)}
     </FriendsListContainer>
   );
 }
