@@ -21,7 +21,9 @@ export default async function handler(request: NextApiRequest, response: NextApi
             { returnDocument: "after", runValidators: true }
           );
 
-          await User.updateOne({ _id: session.user.id }, { $addToSet: { friendsIds: [acceptedInvition.requestingUserId] } });
+          await User.updateOne({ _id: acceptedInvition.requestingUserId }, { $addToSet: { friendsIds: [acceptedInvition.requestedUserId] } });
+
+          await User.updateOne({ _id: acceptedInvition.requestedUserId }, { $addToSet: { friendsIds: [acceptedInvition.requestingUserId] } });
 
           response.status(200).json("ok");
         } else {
