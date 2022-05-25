@@ -5,10 +5,7 @@ import { getSession } from "next-auth/react";
 import { connectDb } from "../../../../../utils/db";
 import { InviteStatus } from "../../../../../utils/enum/InviteStatus";
 
-export default async function handler(
-  request: NextApiRequest,
-  response: NextApiResponse
-) {
+export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   const { email } = request.query;
   try {
     connectDb();
@@ -19,30 +16,24 @@ export default async function handler(
           const getUserWithCurrentEmail = await User.findOne().where({
             email: email,
           });
-          if (
-            getUserWithCurrentEmail === undefined ||
-            getUserWithCurrentEmail === null
-          ) {
-            response
-              .status(404)
-              .json({
-                error:
-                  "Invite not send: User with the current Email not found.",
-              });
-          } else {
+          if (getUserWithCurrentEmail === undefined || getUserWithCurrentEmail === null) {
+            response.status(404).json({
+              error: "Invite not send: User with the current Email not found.",
+            });
+          } 
+          else if(session.user.friendsIds.includes(getUserWithCurrentEmail._id.toString())){
+            response.status(400).json({
+              error: "User already is in the friendlist.",
+            });
+          }
+          else {
             const createdInvitation = await Invitation.create({
               requestingUserId: session.user.id,
               requestedUserId: getUserWithCurrentEmail.id,
               status: InviteStatus.requested,
             });
-            await User.updateOne(
-              { _id: session.user.id },
-              { $addToSet: { invitationIds: [createdInvitation._id] } }
-            );
-            await User.updateOne(
-              { _id: getUserWithCurrentEmail.id },
-              { $addToSet: { invitationIds: [createdInvitation._id] } }
-            );
+            await User.updateOne({ _id: session.user.id }, { $addToSet: { invitationIds: [createdInvitation._id] } });
+            await User.updateOne({ _id: getUserWithCurrentEmail.id }, { $addToSet: { invitationIds: [createdInvitation._id] } });
             response.status(200).json("ok");
           }
         } else {

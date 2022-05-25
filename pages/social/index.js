@@ -60,6 +60,9 @@ export default function Social() {
       } else if (response.status == 404) {
         setError("User nicht gefunden");
       }
+      else if (response.status == 400) {
+        setError("User ist bereits in der Freundesliste.");
+      }
     } catch (error) {
       console.error();
     } finally {
