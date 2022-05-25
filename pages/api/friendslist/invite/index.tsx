@@ -33,7 +33,6 @@ export default async function handler(request: NextApiRequest, response: NextApi
               inviteId: invitedUserData.inviteId,
               requestedUser: await User.findById({ _id: invitedUserData.requestedUserId }),
               requestingUser: await User.findById({ _id: invitedUserData.requestingUserId }),
-              // requestingUserId: invitedUserData.requestingUserId,
               status: invitedUserData.status,
             }))
           );
