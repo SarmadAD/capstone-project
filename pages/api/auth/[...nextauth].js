@@ -27,7 +27,7 @@ export default NextAuth({
     async session({ session, user, token }) {
       return {
         ...session,
-        user: { ...session.user, id: user.id, friendsIds: user.friendsIds },
+        user: { ...session.user, id: user.id, friendsIds: user.friendsIds, invitationIds:user.invitationIds },
       };
     },
   },

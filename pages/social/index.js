@@ -9,6 +9,7 @@ import styled from "styled-components";
 import useSWR from "swr";
 import FriendsList from "../../components/FriendsList/FriendsList";
 import Loading from "../../components/Loading/Loading";
+import { InviteStatus } from "../../utils/enum/InviteStatus";
 
 export default function Social() {
   const resetFriendUser = {
@@ -20,6 +21,7 @@ export default function Social() {
 
   const textIfNoPersonAdded = "Füge Personen hinzu, um deren Timeline zu sehen";
   const userfriends = useSWR("/api/friendslist");
+  const inviteData = useSWR("/api/friendslist/invite");
   const [modalIsOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -47,15 +49,19 @@ export default function Social() {
   async function handleSubmit(event) {
     try {
       event.preventDefault();
-      const response = await fetch(`/api/friendslist/${email}`, {
+      const response = await fetch(`/api/friendslist/invite/sendInvite/${email}`, {
         method: "POST",
         headers: { "content-type": "application/json" },
       });
       if (response.ok) {
         userfriends.mutate();
+        console.log("Here");
         closeModal();
       } else if (response.status == 404) {
         setError("User nicht gefunden");
+      }
+      else if (response.status == 400) {
+        setError("User ist bereits in der Freundesliste.");
       }
     } catch (error) {
       console.error();
@@ -88,25 +94,49 @@ export default function Social() {
       closeModal();
     }
   }
-
   return (
     <>
       <Head>
         <title>Social</title>
       </Head>
       <SocialContainer>
-        {userfriends.data && userfriends.data.length > 0 ? (
-          <FriendsList
-            userfriends={userfriends.data}
-            setRemoveFriendMode={setRemoveFriendMode}
-            openModal={openModal}
-            setCurrentFriendUser={setCurrentFriendUser}
-          />
-        ) : userfriends.data && userfriends.data.length === 0 ? (
-          <p>{textIfNoPersonAdded}</p>
-        ) : (
-          <Loading />
-        )}
+        <AcceptedFriendsList>
+          {/* Angenommen */}
+          {userfriends.data && userfriends.data.length > 0 ? (
+            <FriendsList
+              userfriends={userfriends.data}
+              inviteData={[]}
+              setRemoveFriendMode={setRemoveFriendMode}
+              openModal={openModal}
+              setCurrentFriendUser={setCurrentFriendUser}
+            />
+          ) : userfriends.data && userfriends.data.length === 0 ? (
+            <p>{textIfNoPersonAdded}</p>
+          ) : (
+            <Loading />
+          )}
+        </AcceptedFriendsList>
+        <Invitation>
+          {/* Angefragt/Anfragen */}
+          {inviteData.data &&
+          inviteData.data.length > 0 ? (
+            <>
+              <h2>Angefragt/Anfragen</h2>
+              <FriendsList
+                status={"requested"}
+                userfriends={[]}
+                inviteData={inviteData.data}
+                setRemoveFriendMode={setRemoveFriendMode}
+                openModal={openModal}
+                setCurrentFriendUser={setCurrentFriendUser}
+              />
+            </>
+          ) : inviteData.data && inviteData.data.length === 0 ? (
+            ""
+          ) : (
+            <Loading />
+          )}
+        </Invitation>
         <AddFriendContainer>
           <button onClick={handleCreateFriend}>
             <Image src="/SVG/addFriends.svg" height={50} width={50} alt="add friend button" />
@@ -164,6 +194,14 @@ const SocialContainer = styled.div`
     color: #ffffff;
     margin: 0.5em;
   }
+`;
+
+const Invitation = styled.div`
+  width: 100%;
+  color: #ffffff;
+`;
+const AcceptedFriendsList = styled.div`
+  width: 100%;
 `;
 
 const RemoveFriendContainer = styled.div`

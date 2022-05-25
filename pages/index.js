@@ -65,8 +65,7 @@ export default function Home() {
       const updatedTimepointObj = {
         timepoint: currentTimepoint,
         imageData:
-          currentTimepoint.picture.url === ref.current.url ||
-          ref.current.url === ""
+          currentTimepoint.picture.url === ref.current.url || ref.current.url === ""
             ? { url: currentTimepoint.picture.url, publicId: currentTimepoint.picture.publicId }
             : { url: ref.current.url, publicId: ref.current.publicId },
       };
@@ -75,26 +74,20 @@ export default function Home() {
         imageData: { url: ref.current.url, publicId: ref.current.publicId },
       };
       if (createTimepointMode) {
-        const response = await fetch(
-          `/api/timepoints/usertimepoint/${session.user.id}`,
-          {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify(createdTimepointObj),
-          }
-        );
+        const response = await fetch(`/api/timepoints/usertimepoint/${session.user.id}`, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(createdTimepointObj),
+        });
         if (response.ok) {
           timepoints.mutate();
         }
       } else if (editTimepointMode) {
-        const response = await fetch(
-          `/api/timepoints/${currentTimepoint._id}`,
-          {
-            method: "PATCH",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify(updatedTimepointObj),
-          }
-        );
+        const response = await fetch(`/api/timepoints/${currentTimepoint._id}`, {
+          method: "PATCH",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(updatedTimepointObj),
+        });
         if (response.ok) {
           timepoints.mutate();
         }
@@ -113,11 +106,7 @@ export default function Home() {
     const form = event.target;
     const fileInput = form.elements.file;
     const formData = new FormData();
-    if (
-      fileInput != null &&
-      fileInput != undefined &&
-      fileInput.files.length > 0
-    ) {
+    if (fileInput != null && fileInput != undefined && fileInput.files.length > 0) {
       for (const file of fileInput.files) {
         formData.append("file", file);
       }
@@ -189,7 +178,7 @@ export default function Home() {
   }
 
   function handleDeleteImageClick() {
-    setCurrentTimepoint((current) => ({ ...current, picture: {...current.picture, url:""} }));
+    setCurrentTimepoint((current) => ({ ...current, picture: { ...current.picture, url: "" } }));
   }
 
   function handleTimepointVisibleChange(event) {
@@ -199,8 +188,7 @@ export default function Home() {
     }));
   }
 
-  const textForNoTimepoints =
-    "Füge Timepoints hinzu, um deine Timeline zu erstellen";
+  const textForNoTimepoints = "Füge Timepoints hinzu, um deine Timeline zu erstellen";
   return (
     <HomeContainer>
       {timepoints.data && timepoints.data.length > 0 ? (
@@ -222,38 +210,16 @@ export default function Home() {
 
       <AddTimepointContainer>
         <button onClick={handleCreateTimepoint}>
-          <Image
-            src="/SVG/add.svg"
-            height={50}
-            width={50}
-            alt="add timepoint button"
-          />
+          <Image src="/SVG/add.svg" height={50} width={50} alt="add timepoint button" />
         </button>
       </AddTimepointContainer>
 
       {(createTimepointMode || editTimepointMode) && (
-        <Modal
-          modalIsOpen={modalIsOpen}
-          closeModal={closeModal}
-          isLoading={isLoading}
-        >
+        <Modal modalIsOpen={modalIsOpen} closeModal={closeModal} isLoading={isLoading}>
           <ModalContent>
             <CreateTimepointModalForm onSubmit={handleOnSubmit}>
-              <AppInput
-                name="title"
-                placeholder="Title"
-                value={currentTimepoint.title.toString()}
-                onChange={handleOnChangeForm}
-                required
-              />
-              <AppInput
-                name="date"
-                placeholder="Date"
-                type="date"
-                value={currentTimepoint.date.toString()}
-                onChange={handleOnChangeForm}
-                required
-              />
+              <AppInput name="title" placeholder="Title" value={currentTimepoint.title.toString()} onChange={handleOnChangeForm} required />
+              <AppInput name="date" placeholder="Date" type="date" value={currentTimepoint.date.toString()} onChange={handleOnChangeForm} required />
               <ModalTextArea
                 name="content"
                 placeholder="Beschreibung..."
@@ -264,9 +230,7 @@ export default function Home() {
               <Combobox
                 defaultValue={TimePointTypeList[0].type}
                 value={currentTimepoint.type}
-                data={TimePointTypeList.map(
-                  (TimePointType) => TimePointType["type"]
-                )}
+                data={TimePointTypeList.map((TimePointType) => TimePointType["type"])}
                 onSelect={handleTypeChange}
               />
               <FormGroup>
@@ -296,19 +260,9 @@ export default function Home() {
                   </AppButton>
                 </UploadContainer>
               ) : (
-                <input
-                  type="file"
-                  name="file"
-                  className="uploadButtonstyle"
-                  disabled={isLoading}
-                />
+                <input type="file" name="file" className="uploadButtonstyle" disabled={isLoading} />
               )}
-              <AppButton
-                value={createTimepointMode ? "Erstellen" : "Bearbeiten"}
-                className="createEditButton"
-                type="submit"
-                disabled={isLoading}
-              >
+              <AppButton value={createTimepointMode ? "Erstellen" : "Bearbeiten"} className="createEditButton" type="submit" disabled={isLoading}>
                 {createTimepointMode ? "Erstellen" : "Bearbeiten"}
               </AppButton>
             </CreateTimepointModalForm>
@@ -317,11 +271,7 @@ export default function Home() {
       )}
 
       {deleteTimepointMode && (
-        <Modal
-          modalIsOpen={modalIsOpen}
-          closeModal={closeModal}
-          isLoading={isLoading}
-        >
+        <Modal modalIsOpen={modalIsOpen} closeModal={closeModal} isLoading={isLoading}>
           <ModalContent>
             <MondalDeleteContainer>
               <p>
