@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
 import { AppAnchor } from "../styledComponents/AppAnchor";
-import { motion } from "framer-motion";
 
 export default function Friend({ userFriend, setRemoveFriendMode, openModal, setCurrentFriendUser }) {
   const itemVariants = {
