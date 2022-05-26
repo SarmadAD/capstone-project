@@ -43,7 +43,7 @@ Also you can edit and delte the items if you want.
 ### Social
 In the social page you can see the timeline of the persons you added to youre friendlist. 
 With the add button above the navigation you can add persons to youre friendlist. 
-To do this, you need to enter the email address by which the person registered on Github or Google. 
+To do this, you need to enter the email address by which the person is registered on Github or Google. 
 After that an invitation is send to the friend. After the friend accepted the invitation you can see the timeline. 
 ### Profile
 Here you can see youre personal data that was found on GitHub. 
