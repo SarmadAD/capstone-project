@@ -164,7 +164,7 @@ const TimepointContentContainer = styled.div`
   display: flex;
   width: 100%;
   max-height: 150px;
-  max-width: 280px;
+  max-width: 320px;
 `;
 
 const TimepointContentRightSide = styled.div`
@@ -187,6 +187,7 @@ const ImageContainer = styled.div`
 const TimepointHeader = styled.h3`
   font-style: normal;
   font-weight: 400;
+  margin-bottom: 0.5em;
 `;
 
 const TimepointContent = styled.article`
@@ -199,7 +200,7 @@ const TimepointContent = styled.article`
 const FooterTimePoint = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
 `;
 
 const EditDeleteContainer = styled.div`

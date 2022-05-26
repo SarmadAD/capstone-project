@@ -1,4 +1,4 @@
-import { getSession, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import { useState } from "react";
 import { AppButton } from "../../components/styledComponents/AppButton";
 import { AppInput } from "../../components/styledComponents/AppInput";
@@ -9,7 +9,6 @@ import styled from "styled-components";
 import useSWR from "swr";
 import FriendsList from "../../components/FriendsList/FriendsList";
 import Loading from "../../components/Loading/Loading";
-import { InviteStatus } from "../../utils/enum/InviteStatus";
 
 export default function Social() {
   const resetFriendUser = {
@@ -55,12 +54,10 @@ export default function Social() {
       });
       if (response.ok) {
         userfriends.mutate();
-        console.log("Here");
         closeModal();
       } else if (response.status == 404) {
         setError("User nicht gefunden");
-      }
-      else if (response.status == 400) {
+      } else if (response.status == 400) {
         setError("User ist bereits in der Freundesliste.");
       }
     } catch (error) {
@@ -101,7 +98,6 @@ export default function Social() {
       </Head>
       <SocialContainer>
         <AcceptedFriendsList>
-          {/* Angenommen */}
           {userfriends.data && userfriends.data.length > 0 ? (
             <FriendsList
               userfriends={userfriends.data}
@@ -117,9 +113,7 @@ export default function Social() {
           )}
         </AcceptedFriendsList>
         <Invitation>
-          {/* Angefragt/Anfragen */}
-          {inviteData.data &&
-          inviteData.data.length > 0 ? (
+          {inviteData.data && inviteData.data.length > 0 ? (
             <>
               <h2>Angefragt/Anfragen</h2>
               <FriendsList
