@@ -30,12 +30,12 @@ npm run test
 ```
 ---
 ### Authentication 
-In the moment you have the possibility to log in with a GitHub Account. 
+In the moment you have the possibility to log in with GitHub and Google. 
 ### Navigate 
 You can navigate between three pages:
 * Home, where you see youre timeline
 * Social, where you can see a the timelines of youre friends
-* Profile, where you can see youre personal data from youre GitHub Account
+* Profile, where you can see youre personal data from youre Account
 ### Home 
 Here you can see youre timeline. You can create new items on it with the create button above the navigation. 
 To create an item you need to enter title, date, content and a picture. 
@@ -43,8 +43,8 @@ Also you can edit and delte the items if you want.
 ### Social
 In the social page you can see the timeline of the persons you added to youre friendlist. 
 With the add button above the navigation you can add persons to youre friendlist. 
-To do this, you need to enter the email address by which the person registered on Github. 
-After that you can see the timeline. 
+To do this, you need to enter the email address by which the person registered on Github or Google. 
+After that an invitation is send to the friend. After the friend accepted the invitation you can see the timeline. 
 ### Profile
 Here you can see youre personal data that was found on GitHub. 
 Also you can log out from the app. 
