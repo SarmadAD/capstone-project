@@ -207,7 +207,7 @@ const RemoveFriendOptions = styled.div`
   display: flex;
   justify-content: space-between;
   button {
-    margin-right: 1em;
+    width: 35%;
   }
 `;
 
