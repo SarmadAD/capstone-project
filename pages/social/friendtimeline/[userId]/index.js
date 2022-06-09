@@ -34,18 +34,21 @@ export default function FriendTimeline() {
 }
 const FriendTimelineContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 5em;
   p {
     text-align: center;
     font-size: 2.5em;
     color: #ffffff;
   }
+  .timepointListContainer{
+    width: 100%;
+  }
 `;
 
 const BackButtonContainer = styled.div`
   margin-bottom: 1em;
+  align-self: flex-start;
 `;
 
 export async function getServerSideProps(context) {

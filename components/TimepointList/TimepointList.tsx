@@ -50,6 +50,7 @@ export default function TimepointList({
     .sort(sortTimepoints);
   return (
     <TimepointListContainer
+    className="timepointListContainer"
       variants={myVariants}
       initial="initial"
       animate="default"
