@@ -23,6 +23,7 @@ export default function Timepoint({
     boxShadow: "0px 0px 13px 0px rgba(255,255,255,0.42)",
     padding: 0,
     paddingRight: "1em",
+    maxWidth: "320px",
   };
 
   const itemVariants = {
@@ -170,13 +171,13 @@ const TimepointContentContainer = styled.div`
 const TimepointContentRightSide = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 1em;
   width: 60%;
 `;
 
 const ImageContainer = styled.div`
   display: flex;
   width: 40%;
+  margin-right: 0.5em;
   border-radius: 26px 0px 0px 26px;
 
   .timepointImage {

@@ -207,7 +207,7 @@ const RemoveFriendOptions = styled.div`
   display: flex;
   justify-content: space-between;
   button {
-    margin-right: 1em;
+    width: 35%;
   }
 `;
 
@@ -223,6 +223,10 @@ const AddFriendContainer = styled.div`
     background-color: #9e94d6;
     border-radius: 50%;
     padding: 1em;
+    border: 1.5px solid #FFFFFF;
+    :active{
+    border: 1px solid #FFFFFF;
+    }
   }
 `;
 
