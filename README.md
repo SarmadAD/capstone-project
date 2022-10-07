@@ -39,7 +39,7 @@ You can navigate between three pages:
 ### Home 
 Here you can see youre timeline. You can create new items on it with the create button above the navigation. 
 To create an item you need to enter title, date, content and a picture. 
-Also you can edit and delte the items if you want. 
+Also you can edit and delete the items if you want. 
 ### Social
 In the social page you can see the timeline of the persons you added to youre friendlist. 
 With the add button above the navigation you can add persons to youre friendlist. 
